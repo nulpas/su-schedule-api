@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "./tools/init-mysql-db.sh && tsc && node dist/index.js",
+    "start": "tsc && node dist/index.js",
+    "start:dev": "./tools/init-mysql-db.sh && tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",

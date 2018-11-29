@@ -1,15 +1,14 @@
 import portScan from 'portscanner';
+import configFile from '../src/config/config.json';
 import dotEnv from 'dotenv';
 dotEnv.config();
 
-// const env = process.env.NODE_ENV || 'development';
-// const config = require(`${__dirname}/src/db/config/config.json`)[env];
-// const host = (process.env.CHECK_PORT_DOCKER === 'docker') ? config.host : 'localhost' ;
-const host = 'localhost';
+const env = process.env.NODE_ENV || 'development';
+const config = configFile[env];
 
-const portStatusPromise = portScan.checkPortStatus(process.env.CHECK_PORT_PORT, host);
+const portStatusPromise = portScan.checkPortStatus(process.env.CHECK_PORT_PORT, config.host);
 portStatusPromise.then(status => {
   if (status === 'open') {
-    console.log(host, process.env.CHECK_PORT_PORT, status); /* eslint-disable-line no-console */
+    console.log(config.host, process.env.CHECK_PORT_PORT, status); /* eslint-disable-line no-console */
   }
 });
