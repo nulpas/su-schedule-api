@@ -20,7 +20,7 @@ checkPort() {
   sentinel=0
   while [[ "$OUTPUT" == "" ]] && [[ "$sentinel" -lt 6 ]]
   do
-    OUTPUT="$(CHECK_PORT_PORT=${PORT} CHECK_PORT_DOCKER=${DOCKER} ./node_modules/@babel/node/bin/babel-node.js ./tools/check-port.js)"
+    OUTPUT="$(CHECK_PORT_PORT=${PORT} CHECK_PORT_DOCKER=${DOCKER} ./node_modules/.bin/babel-node ./tools/check-port.js)"
     if [[ "$OUTPUT" == "" ]]; then
       sleep 5
       let sentinel=sentinel+1
@@ -36,7 +36,7 @@ checkPort() {
 checkPortFast() {
   PORT=$1
   DOCKER=$2
-  OUTPUT="$(CHECK_PORT_PORT=${PORT} CHECK_PORT_DOCKER=${DOCKER} ./node_modules/@babel/node/bin/babel-node.js ./tools/check-port.js)"
+  OUTPUT="$(CHECK_PORT_PORT=${PORT} CHECK_PORT_DOCKER=${DOCKER} ./node_modules/.bin/babel-node ./tools/check-port.js)"
   echo "$OUTPUT"
 }
 
@@ -70,6 +70,7 @@ DB_ROOT_PASSWORD="manuEme"
 
 ###### LOAD ENVIRONMENT VARIABLES ######
 
+NODE_ENV=""
 PROJECT_URL="$(pwd)";
 source "${PROJECT_URL}/.env"
 
