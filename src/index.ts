@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize/lib/sequelize';
 import * as dotEnv from 'dotenv';
 import * as configFile from './config/config.json';
 import models from './models';

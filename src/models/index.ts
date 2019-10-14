@@ -2,7 +2,7 @@ import * as dotEnv from 'dotenv';
 import * as configFile from '../config/config.json';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize/lib/sequelize';
 
 dotEnv.config();
 const env: string = process.env.NODE_ENV || 'development';

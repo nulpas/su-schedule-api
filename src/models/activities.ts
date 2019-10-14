@@ -1,6 +1,7 @@
-import * as Sequelize from "sequelize";
+import Sequelize from "sequelize/lib/sequelize";
+import DataTypes from 'sequelize/lib/data-types';
 
-export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
+export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes) => {
   const activities = sequelize.define('activities', {
     name: DataTypes.STRING
   }, {});

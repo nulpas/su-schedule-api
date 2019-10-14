@@ -1,4 +1,5 @@
-import * as Sequelize from 'sequelize';
+import Sequelize from "sequelize/lib/sequelize";
+import DataTypes from 'sequelize/lib/data-types';
 
 export interface UserAddModel {
   email: string;
@@ -18,7 +19,7 @@ export interface UserViewModel {
   email: string;
 }
 
-export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
+export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes) => {
   const User = sequelize.define('User', {
     email: DataTypes.STRING,
     password: DataTypes.STRING

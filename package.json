@@ -1,6 +1,6 @@
 {
   "name": "@nulpas/su-schedule-api",
-  "version": "0.0.0-beta.2",
+  "version": "0.0.0-beta.3",
   "description": "Su Schedule API.",
   "main": "index.js",
   "scripts": {
