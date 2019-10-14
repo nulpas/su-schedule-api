@@ -10,6 +10,16 @@ userRouter.get('/user', (request: express.Request, response: express.Response) =
 });
 
 userRouter.get('/user/:userId', (request: express.Request, response: express.Response) => {
+  const goal = {
+    id: 67,
+    email: 'nulpas@gmail.com',
+    mas: 'asdafasdfasdf, asdfasdf',
+    test: 'lololo',
+    cosa: 'asdasdasdasd'
+  };
+  const { email, cosa } = goal!;
+  console.log({ email, cosa });
+
   models.User.findByPk(request.params.userId)
     .then(res => response.json(res))
     .catch((e) => response.status(500).json(e));
