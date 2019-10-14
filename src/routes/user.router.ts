@@ -3,7 +3,7 @@ import models from '../models';
 
 const userRouter: express.Router = express.Router();
 
-userRouter.get('/user', (request: express.Request, response: express.Response) => {
+userRouter.get('/users', (request: express.Request, response: express.Response) => {
   models.User.findAll()
     .then(res => response.json(res))
     .catch((e) => response.status(500).json(e));
