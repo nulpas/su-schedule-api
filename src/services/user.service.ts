@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import * as Bluebird from 'Bluebird';
+import * as Bluebird from 'bluebird';
 import models from '../models';
 import { UserAddModel, UserViewModel } from '../models/user';
 const User = models.User;
