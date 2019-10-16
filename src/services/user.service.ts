@@ -6,29 +6,32 @@ import { UserAddModel, UserViewModel } from '../models/user';
 const User = models.User;
 
 export class UserService {
-  private readonly _saltRounds = 12;
-  private readonly _jwtSecret = '0.rfyj3n9nzh';
-
-  static get userAttributes() {
+  public static get userAttributes() {
     return ['id', 'email'];
   }
-  private static _user;
-  static get user() {
+
+  public static get user() {
     return UserService._user;
   }
-  static set user(u) {
+  public static set user(u) {
     UserService._user = u;
   }
 
-  register({ email, password }: UserAddModel) {
+  private readonly _saltRounds = 12;
+  private readonly _jwtSecret = '0.rfyj3n9nzh';
+  private static _user;
+
+  constructor() {}
+
+  public register({ email, password }: UserAddModel) {
     return bcrypt.hash(password, this._saltRounds)
-      .then(hash => {
+      .then((hash: string) => {
         return User.create({ email, password: hash })
           .then(u => this.getUserById(u!.id));
       });
   }
 
-  login({ email }: UserAddModel) {
+  public login({ email }: UserAddModel) {
     return User.findOne({ where: { email } }).then(u => {
       const { id, email } = u!;
       return {
@@ -37,24 +40,20 @@ export class UserService {
     })
   }
 
-  verifyToken(token: string) {
+  public verifyToken(token: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, this._jwtSecret, (err, decoded) => {
-        if (err) {
-          resolve(false);
-          return;
+      jwt.verify(token, this._jwtSecret, (errors, decoded) => {
+        resolve(!(!!errors));
+        if (!(!!errors)) {
+          UserService.user = User.findByPk(decoded['id']);
         }
-
-        UserService.user = User.findById(decoded['id']);
-        resolve(true);
-        return;
       })
-    }) as Promise<boolean>;
+    });
   }
 
-  getUserById(id: number) {
+  public getUserById(id: number): Bluebird<UserViewModel> {
     return User.findByPk(id, {
       attributes: UserService.userAttributes
-    }) as Bluebird<UserViewModel>;
+    });
   }
 }

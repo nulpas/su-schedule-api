@@ -6,6 +6,7 @@ import * as dotEnv from 'dotenv';
 import * as configFile from './config/config.json';
 import models from './models';
 import routes from './routes';
+import { tokenGuard } from './middlewares/token-guard';
 
 dotEnv.config();
 const app = express();
@@ -39,6 +40,13 @@ models.sequelize.sync()
     //## Unprotected Get
     app.get('/', (request: express.Request, response: express.Response) => {
       response.json('Hello World');
+    });
+
+    app.use(tokenGuard());
+
+    //## Protected Get
+    app.get('/protected', (request: express.Request, response: express.Response) => {
+      response.json('Protected Hello World');
     });
 
     app.listen(port, () => {

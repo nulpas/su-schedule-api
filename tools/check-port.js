@@ -1,6 +1,6 @@
 import portScan from 'portscanner';
 import configFile from '../src/config/config.json';
-import dotEnv from 'dotenv';
+import * as dotEnv from 'dotenv';
 dotEnv.config();
 
 const env = process.env.NODE_ENV || 'development';
