@@ -6,4 +6,6 @@ services:
 env:
   global:
     - NODE_ENV=test
+before_install:
+  - mysql -e 'CREATE DATABASE database_test;'
 script: yarn start:test
