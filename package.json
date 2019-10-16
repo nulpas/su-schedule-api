@@ -8,7 +8,7 @@
     "dev": "tsc --watch",
     "start": "tsc && node dist/index.js",
     "start:dev": "./tools/init-mysql-db.sh && sequelize db:migrate && tsc && node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",
   "license": "MIT",
