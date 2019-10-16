@@ -1,13 +1,12 @@
-import * as Sequelize from 'sequelize';
-import { sequelize } from "../instances/sequelize";
+import Sequelize from "sequelize/lib/sequelize";
+import DataTypes from 'sequelize/lib/data-types';
 
 export interface UserAddModel {
-  id?: number;
   email: string;
-  password: string
+  password: string;
 }
 
-export interface UserModel extends Sequelize.Model<UserModel, UserAddModel> {
+export interface UserModel extends Sequelize.Model<UserModel, UserAddModel>{
   id: number;
   email: string;
   password: string;
@@ -20,12 +19,13 @@ export interface UserViewModel {
   email: string;
 }
 
-export const User = sequelize.define<UserModel, UserAddModel>('user', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  email: Sequelize.STRING,
-  password: Sequelize.STRING
-});
+export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes) => {
+  const User = sequelize.define('User', {
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
+  }, {});
+  User.associate = function(models) {
+    // associations can be defined here
+  };
+  return User;
+};
