@@ -6,6 +6,7 @@ import * as dotEnv from 'dotenv';
 import * as configFile from './config/config.json';
 import models from './models';
 import routes from './routes';
+import routesUnprotected from './routes/index.unprotected';
 import { tokenGuard } from './middlewares/token-guard';
 
 dotEnv.config();
@@ -18,8 +19,12 @@ models.sequelize.sync()
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cors());
 
-    Object.keys(routes).forEach(e => {
-      app.use('/', routes[e]);
+    app.get('/', (request: express.Request, response: express.Response) => {
+      response.json('Hello World');
+    });
+
+    Object.keys(routesUnprotected).forEach((e: string) => {
+      app.use('/', routesUnprotected[e]);
     });
 
     app.use('/healthcheck', (request: express.Request, response: express.Response) => {
@@ -27,24 +32,23 @@ models.sequelize.sync()
       const config: any = configFile[env];
       const sequelize: Sequelize.Sequelize = new Sequelize(config.database, config.username, config.password, {
         host: config.host,
-        dialect: config.dialect,
-        operatorsAliases: false
+        dialect: config.dialect
       });
-
       return sequelize
         .authenticate()
         .then(() => response.sendStatus(200))
         .catch((e) => response.status(500).json(e));
     });
 
-    //## Unprotected Get
-    app.get('/', (request: express.Request, response: express.Response) => {
-      response.json('Hello World');
-    });
-
+    //## Activated authentication from here:
     app.use(tokenGuard());
 
-    //## Protected Get
+    //## Loads all routes that need token authentication.
+    Object.keys(routes).forEach((e: string) => {
+      app.use('/', routes[e]);
+    });
+
+    //## Protected route test
     app.get('/protected', (request: express.Request, response: express.Response) => {
       response.json('Protected Hello World');
     });

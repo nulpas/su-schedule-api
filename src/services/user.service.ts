@@ -3,11 +3,13 @@ import * as jwt from 'jsonwebtoken';
 import * as Bluebird from 'bluebird';
 import models from '../models';
 import { UserAddModel, UserViewModel } from '../models/user';
-const User = models.User;
+import Sequelize from 'sequelize/lib/sequelize';
+
+const user: Sequelize.Model = models.user;
 
 export class UserService {
   public static get userAttributes() {
-    return ['id', 'email'];
+    return ['id', 'name', 'email', 'active'];
   }
 
   public static get user() {
@@ -23,20 +25,16 @@ export class UserService {
 
   constructor() {}
 
-  public register({ email, password }: UserAddModel) {
-    return bcrypt.hash(password, this._saltRounds)
-      .then((hash: string) => {
-        return User.create({ email, password: hash })
-          .then(u => this.getUserById(u!.id));
-      });
+  public register({ name, email, password }: UserAddModel): Promise<UserViewModel> {
+    return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
+      return user.create({ name, email, password: hash }).then((u) => this.getUserById(u!.id));
+    });
   }
 
   public login({ email }: UserAddModel) {
-    return User.findOne({ where: { email } }).then(u => {
+    return user.findOne({ where: { email } }).then(u => {
       const { id, email } = u!;
-      return {
-        token: jwt.sign({ id, email }, this._jwtSecret)
-      };
+      return { token: jwt.sign({ id, email }, this._jwtSecret, { expiresIn: 600 }) };
     })
   }
 
@@ -45,14 +43,14 @@ export class UserService {
       jwt.verify(token, this._jwtSecret, (errors, decoded) => {
         resolve(!(!!errors));
         if (!(!!errors)) {
-          UserService.user = User.findByPk(decoded['id']);
+          UserService.user = user.findByPk(decoded['id']);
         }
       })
     });
   }
 
   public getUserById(id: number): Bluebird<UserViewModel> {
-    return User.findByPk(id, {
+    return user.findByPk(id, {
       attributes: UserService.userAttributes
     });
   }
