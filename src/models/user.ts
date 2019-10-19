@@ -1,13 +1,12 @@
 import { Model, Sequelize } from 'sequelize';
 
-
 export interface UserAddModel {
   name: string;
   email: string;
   password: string;
 }
 
-export interface UserModel extends Model<UserModel, UserAddModel>{
+export interface UserModel extends Model<UserModel, UserAddModel> {
   id: number;
   name: string;
   email: string;
@@ -24,19 +23,19 @@ export interface UserViewModel {
   active: boolean;
 }
 
-export default (sequelize: Sequelize, DataTypes: any): Model => {
+export default (sequelize: Sequelize, dataTypes: any): Model => {
   const user: any = sequelize.define('user', {
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    name: dataTypes.STRING,
+    email: dataTypes.STRING,
+    password: dataTypes.STRING,
     active: {
       allowNull: false,
-      type: DataTypes.BOOLEAN,
+      type: dataTypes.BOOLEAN,
       defaultValue: false
     }
   }, {});
-  user.associate = function(models: any) {
-    //## Associations can be defined here
+  user.associate = (models: any) => {
+    // ## Associations can be defined here
   };
   return user;
 };

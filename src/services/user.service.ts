@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import * as Bluebird from 'bluebird';
 import models from '../models';
 import { UserAddModel, UserViewModel } from '../models/user';
+import {RequestUserLogin} from '../types/request.types';
 
 const user = models.user;
 
@@ -17,24 +18,27 @@ export class UserService {
   public static set user(u) {
     UserService._user = u;
   }
+  private static _user: any;
 
   private readonly _saltRounds = 12;
   private readonly _jwtSecret = '0.rfyj3n9nzh';
-  private static _user: any;
 
   constructor() {}
 
   public register({ name, email, password }: UserAddModel): Promise<UserViewModel> {
     return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
-      return user.create({ name, email, password: hash }).then((u: any) => this.getUserById(u!.id));
+      return user.create({ name, email, password: hash }).then((u: any) => this.getUserById(u.id));
     });
   }
 
   public login({ email }: UserAddModel) {
     return user.findOne({ where: { email } }).then((u: any) => {
-      const { id, email } = u!;
-      return { token: jwt.sign({ id, email }, this._jwtSecret, { expiresIn: 600 }) };
-    })
+      const _loginPayload: RequestUserLogin = {
+        id: u.id,
+        email: u.email
+      };
+      return { token: jwt.sign(_loginPayload, this._jwtSecret, { expiresIn: 600 }) };
+    });
   }
 
   public verifyToken(token: string): Promise<boolean> {
@@ -42,9 +46,9 @@ export class UserService {
       jwt.verify(token, this._jwtSecret, (errors: any, decoded: any) => {
         resolve(!(!!errors));
         if (!(!!errors)) {
-          UserService.user = user.findByPk(decoded['id']);
+          UserService.user = user.findByPk(decoded.id);
         }
-      })
+      });
     });
   }
 

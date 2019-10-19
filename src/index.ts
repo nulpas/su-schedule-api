@@ -40,15 +40,15 @@ models.sequelize.sync()
         .catch((e) => response.status(500).json(e));
     });
 
-    //## Activated authentication from here:
+    // ## Activated authentication from here:
     app.use(tokenGuard());
 
-    //## Loads all routes that need token authentication.
+    // ## Loads all routes that need token authentication.
     Object.keys(routes).forEach((e: string) => {
       app.use('/', routes[e]);
     });
 
-    //## Protected route test
+    // ## Protected route test
     app.get('/protected', (request: express.Request, response: express.Response) => {
       response.json('Protected Hello World');
     });

@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { IncomingHttpHeaders } from 'http';
-import * as express from 'express'
-import { UserService } from '../services/user.service'
+import * as express from 'express';
+import { UserService } from '../services/user.service';
 
 type TokenGuard = () => express.RequestHandler;
 

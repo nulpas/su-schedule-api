@@ -9,4 +9,6 @@ env:
 before_install:
   - mysql -e 'CREATE DATABASE database_test;'
 script:
+  - yarn lint
   - yarn start:test &
+  - yarn test

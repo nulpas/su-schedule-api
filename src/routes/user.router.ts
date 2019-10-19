@@ -1,4 +1,4 @@
-import * as express from "express";
+import * as express from 'express';
 import models from '../models';
 
 const userRouter: express.Router = express.Router();

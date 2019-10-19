@@ -1,4 +1,4 @@
-import * as express from "express";
+import * as express from 'express';
 import { matchedData, validationResult } from 'express-validator';
 import { userRules } from '../rules/user.rules';
 import { UserService } from '../services/user.service';
@@ -8,7 +8,7 @@ import { RequestUserRegister } from '../types/request.types';
 const userRouterUnprotected: express.Router = express.Router();
 const userService = new UserService();
 
-userRouterUnprotected.post('/register', userRules['forRegister'], (request: express.Request, response: express.Response) => {
+userRouterUnprotected.post('/register', userRules.forRegister, (request: express.Request, response: express.Response) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(422).json(errors.array());
@@ -17,7 +17,7 @@ userRouterUnprotected.post('/register', userRules['forRegister'], (request: expr
   return userService.register(payload).then((u: UserViewModel) => response.json(u));
 });
 
-userRouterUnprotected.post('/login', userRules['forLogin'], (request: express.Request, response: express.Response) => {
+userRouterUnprotected.post('/login', userRules.forLogin, (request: express.Request, response: express.Response) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(422).json(errors.array());

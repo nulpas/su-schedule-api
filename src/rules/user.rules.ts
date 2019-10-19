@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcryptjs'
+import * as bcrypt from 'bcryptjs';
 import { check } from 'express-validator';
 import models from '../models';
 
@@ -27,7 +27,7 @@ export const userRules = {
     check('email')
       .isEmail().withMessage('Invalid email format')
       .custom((email) => {
-        return user.findOne({ where: { email: email } }).then((u: any) => {
+        return user.findOne({ where: { email } }).then((u: any) => {
           if (!!u && !u.active) {
             return Promise.reject();
           }
@@ -38,12 +38,12 @@ export const userRules = {
         return user.findOne({ where: { email: req.body.email } }).then((u: any) => {
           return (!u) ?
             Promise.reject() :
-            bcrypt.compare(password, u!.password).then((r: boolean) => {
+            bcrypt.compare(password, u.password).then((r: boolean) => {
               if (!r) {
                 return Promise.reject();
               }
             });
-        })
+        });
       }).withMessage('Invalid email or password')
   ]
 };
