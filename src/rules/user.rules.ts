@@ -1,9 +1,8 @@
 import * as bcrypt from 'bcryptjs'
 import { check } from 'express-validator';
 import models from '../models';
-import Sequelize from 'sequelize/lib/sequelize';
 
-const user: Sequelize.Model = models.user;
+const user = models.user;
 
 export const userRules = {
   forRegister: [
@@ -12,7 +11,7 @@ export const userRules = {
       .custom((name: string) => !!name).withMessage('Name required'),
     check('email')
       .isEmail().withMessage('Invalid email format')
-      .custom((email: string) => user.findAndCountAll({ where: { email } }).then((r) => {
+      .custom((email: string) => user.findAndCountAll({ where: { email } }).then((r: any) => {
         if (r.count) {
           return Promise.reject();
         }
@@ -28,7 +27,7 @@ export const userRules = {
     check('email')
       .isEmail().withMessage('Invalid email format')
       .custom((email) => {
-        return user.findOne({ where: { email: email } }).then((u) => {
+        return user.findOne({ where: { email: email } }).then((u: any) => {
           if (!!u && !u.active) {
             return Promise.reject();
           }
@@ -36,7 +35,7 @@ export const userRules = {
       }).withMessage('Your user needs to be activated'),
     check('password')
       .custom((password, { req }) => {
-        return user.findOne({ where: { email: req.body.email } }).then((u) => {
+        return user.findOne({ where: { email: req.body.email } }).then((u: any) => {
           return (!u) ?
             Promise.reject() :
             bcrypt.compare(password, u!.password).then((r: boolean) => {

@@ -25,7 +25,7 @@ userRouterUnprotected.post('/login', userRules['forLogin'], (request: express.Re
   const payload: UserAddModel = matchedData(request) as UserAddModel;
   const token = userService.login(payload);
 
-  return token.then(t => response.json(t));
+  return token.then((t: any) => response.json(t));
 });
 
 export default userRouterUnprotected;

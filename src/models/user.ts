@@ -1,5 +1,5 @@
-import Sequelize from 'sequelize/lib/sequelize';
-import DataTypes from 'sequelize/lib/data-types';
+import { Model, Sequelize } from 'sequelize';
+
 
 export interface UserAddModel {
   name: string;
@@ -7,7 +7,7 @@ export interface UserAddModel {
   password: string;
 }
 
-export interface UserModel extends Sequelize.Model<UserModel, UserAddModel>{
+export interface UserModel extends Model<UserModel, UserAddModel>{
   id: number;
   name: string;
   email: string;
@@ -24,8 +24,8 @@ export interface UserViewModel {
   active: boolean;
 }
 
-export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes): Sequelize.Model => {
-  const user: Sequelize.Model = sequelize.define('user', {
+export default (sequelize: Sequelize, DataTypes: any): Model => {
+  const user: any = sequelize.define('user', {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -35,7 +35,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes):
       defaultValue: false
     }
   }, {});
-  user.associate = function(models) {
+  user.associate = function(models: any) {
     //## Associations can be defined here
   };
   return user;

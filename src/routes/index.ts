@@ -3,8 +3,7 @@ import userRouter from './user.router';
 import activitiesRouter from './activities.router';
 
 export interface SuScheduleRouter {
-  userRouter: express.Router;
-  activitiesRouter: express.Router;
+  [routerName: string]: express.Router;
 }
 
 export default {

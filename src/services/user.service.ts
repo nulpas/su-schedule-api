@@ -3,9 +3,8 @@ import * as jwt from 'jsonwebtoken';
 import * as Bluebird from 'bluebird';
 import models from '../models';
 import { UserAddModel, UserViewModel } from '../models/user';
-import Sequelize from 'sequelize/lib/sequelize';
 
-const user: Sequelize.Model = models.user;
+const user = models.user;
 
 export class UserService {
   public static get userAttributes() {
@@ -21,18 +20,18 @@ export class UserService {
 
   private readonly _saltRounds = 12;
   private readonly _jwtSecret = '0.rfyj3n9nzh';
-  private static _user;
+  private static _user: any;
 
   constructor() {}
 
   public register({ name, email, password }: UserAddModel): Promise<UserViewModel> {
     return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
-      return user.create({ name, email, password: hash }).then((u) => this.getUserById(u!.id));
+      return user.create({ name, email, password: hash }).then((u: any) => this.getUserById(u!.id));
     });
   }
 
   public login({ email }: UserAddModel) {
-    return user.findOne({ where: { email } }).then(u => {
+    return user.findOne({ where: { email } }).then((u: any) => {
       const { id, email } = u!;
       return { token: jwt.sign({ id, email }, this._jwtSecret, { expiresIn: 600 }) };
     })
@@ -40,7 +39,7 @@ export class UserService {
 
   public verifyToken(token: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, this._jwtSecret, (errors, decoded) => {
+      jwt.verify(token, this._jwtSecret, (errors: any, decoded: any) => {
         resolve(!(!!errors));
         if (!(!!errors)) {
           UserService.user = user.findByPk(decoded['id']);

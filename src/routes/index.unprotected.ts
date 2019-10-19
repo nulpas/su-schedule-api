@@ -2,7 +2,7 @@ import * as express from 'express';
 import userRouterUnprotected from './user.unprotected.router';
 
 export interface SuScheduleRouterUnprotected {
-  userRouterUnprotected: express.Router;
+  [routerUnprotectedName: string]: express.Router;
 }
 
 export default {

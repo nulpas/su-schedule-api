@@ -1,11 +1,10 @@
-import Sequelize from "sequelize/lib/sequelize";
-import DataTypes from 'sequelize/lib/data-types';
+import { Model, Sequelize } from 'sequelize';
 
-export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes): Sequelize.Model => {
-  const activities: Sequelize.Model = sequelize.define('activities', {
+export default (sequelize: Sequelize, DataTypes: any): Model => {
+  const activities: any = sequelize.define('activities', {
     name: DataTypes.STRING
   }, {});
-  activities.associate = function(models) {
+  activities.associate = function(models: any) {
     //## Associations can be defined here
   };
   return activities;

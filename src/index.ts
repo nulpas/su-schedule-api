@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as cors from 'cors';
+import express from 'express';
+import cors from 'cors';
 import * as bodyParser from 'body-parser';
-import Sequelize from 'sequelize/lib/sequelize';
+import { Sequelize } from 'sequelize';
 import * as dotEnv from 'dotenv';
 import * as configFile from './config/config.json';
 import models from './models';
@@ -30,7 +30,7 @@ models.sequelize.sync()
     app.use('/healthcheck', (request: express.Request, response: express.Response) => {
       const env: string = process.env.NODE_ENV || 'development';
       const config: any = configFile[env];
-      const sequelize: Sequelize.Sequelize = new Sequelize(config.database, config.username, config.password, {
+      const sequelize: Sequelize = new Sequelize(config.database, config.username, config.password, {
         host: config.host,
         dialect: config.dialect
       });
@@ -57,6 +57,6 @@ models.sequelize.sync()
       console.log(`App is listening on port ${port}`);
     });
   })
-  .catch((error) => {
+  .catch((error: any) => {
     throw new Error(error);
   });
