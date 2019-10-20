@@ -4,8 +4,7 @@
     "password": "chaimae",
     "database": "su",
     "host": "localhost",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",

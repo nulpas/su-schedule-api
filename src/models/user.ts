@@ -1,31 +1,41 @@
-import Sequelize from "sequelize/lib/sequelize";
-import DataTypes from 'sequelize/lib/data-types';
+import { Model, Sequelize } from 'sequelize';
 
 export interface UserAddModel {
+  name: string;
   email: string;
   password: string;
 }
 
-export interface UserModel extends Sequelize.Model<UserModel, UserAddModel>{
+export interface UserModel extends Model<UserModel, UserAddModel> {
   id: number;
+  name: string;
   email: string;
   password: string;
+  active: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface UserViewModel {
   id: number;
+  name: string;
   email: string;
+  active: boolean;
 }
 
-export default (sequelize: Sequelize.Sequelize, DataTypes: DataTypes.DataTypes) => {
-  const User = sequelize.define('User', {
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+export default (sequelize: Sequelize, dataTypes: any): Model => {
+  const user: any = sequelize.define('user', {
+    name: dataTypes.STRING,
+    email: dataTypes.STRING,
+    password: dataTypes.STRING,
+    active: {
+      allowNull: false,
+      type: dataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {});
-  User.associate = function(models) {
-    // associations can be defined here
+  user.associate = (models: any) => {
+    // ## Associations can be defined here
   };
-  return User;
+  return user;
 };

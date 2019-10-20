@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - lts/*
+services:
+  - mysql
+env:
+  global:
+    - NODE_ENV=test
+before_install:
+  - mysql -e 'CREATE DATABASE database_test;'
+script:
+  - yarn lint
+  - yarn start:test
+  - yarn test
