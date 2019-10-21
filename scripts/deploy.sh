@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -x
 if [ $TRAVIS_BRANCH == 'master' ] ; then
     echo 'Deploy ready'
