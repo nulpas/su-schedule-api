@@ -21,4 +21,4 @@ deploy:
   skip_cleanup: true
   script: "./scripts/deploy.sh"
   on:
-    branch: all
+    all_branches: true
