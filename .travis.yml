@@ -14,5 +14,8 @@ script:
   - yarn lint
   - yarn start:test
   - yarn test
-after_success:
-  - bash ./scripts/deploy.sh
+deploy:
+  provider: script
+  script: ./scripts/deploy.sh
+  on:
+    branch: master
