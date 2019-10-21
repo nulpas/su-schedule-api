@@ -8,7 +8,9 @@ env:
     - NODE_ENV=test
 before_install:
   - npm i npm -g
+  - npm -v
   - npm i yarn -g
+  - yarn -v
   - bash ./scripts/before-install.sh
   - mysql -e 'CREATE DATABASE database_test;'
 script:
