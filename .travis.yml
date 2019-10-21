@@ -7,8 +7,15 @@ env:
   global:
     - NODE_ENV=test
 before_install:
+  - npm i npm yarn -g
+  - bash ./scripts/before-install.sh
   - mysql -e 'CREATE DATABASE database_test;'
 script:
   - yarn lint
   - yarn start:test
   - yarn test
+deploy:
+  provider: script
+  script: ./scripts/deploy.sh
+  on:
+    branch: master
