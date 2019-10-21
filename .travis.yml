@@ -14,3 +14,5 @@ script:
   - yarn lint
   - yarn start:test
   - yarn test
+after_success:
+  - bash deploy.sh
