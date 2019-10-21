@@ -1,23 +1,24 @@
 language: node_js
 node_js:
-  - lts/*
+- lts/*
 services:
-  - mysql
+- mysql
 env:
   global:
-    - NODE_ENV=test
+  - NODE_ENV=test
 before_install:
-  - npm i npm yarn -g
-  - mysql -e 'CREATE DATABASE database_test;'
+- npm i npm yarn -g
+- mysql -e 'CREATE DATABASE database_test;'
 script:
-  - yarn lint
-  - yarn start:test
-  - yarn test
+- yarn lint
+- yarn start:test
+- yarn test
 before_deploy:
-  - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv -in travis_rsa.enc -out travis_rsa -d
+  - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
+    -in travis_rsa.enc -out travis_rsa -d
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./scripts/deploy.sh
+  script: "./scripts/deploy.sh"
   on:
     branch: master
