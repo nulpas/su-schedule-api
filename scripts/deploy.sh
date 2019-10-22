@@ -11,8 +11,9 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   yarn
   yarn build
   mv dist/* ../
+  mv node_modules ../
   cd ../
-  rm -rf su-schedule-api
+  #rm -rf su-schedule-api
 EOF
 
 #eval "$(ssh-agent -s)"
