@@ -14,9 +14,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "vyz",
+    "password": "0StFi5uH3pXJUba64uxKoUIjJyo6sC0LqhTchm2z86r9Sgl3QfSEx6HwyIrGq",
+    "database": "vaquerosyzapatillas",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
