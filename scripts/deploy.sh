@@ -2,7 +2,8 @@
 
 set -x
 
-yes | ssh travis@api.vaquerosyzapatillas.com -p 18665
+ssh-keyscan api.vaquerosyzapatillas.com >> $HOME/.ssh/known_hosts
+ssh travis@api.vaquerosyzapatillas.com -p 18665
 cd /var/www/vaquerosyzapatillas.com/api
 mkdir pollas
 
