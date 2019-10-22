@@ -3,25 +3,32 @@ language: node_js
 node_js:
   - lts/*
 
-services:
-  - mysql
+jobs:
+  include:
+    - stage: test
+      services:
+        - mysql
+      env:
+        global:
+          - NODE_ENV=test
+      before_script:
+        - npm i npm yarn -g
+        - mysql -e 'CREATE DATABASE database_test;'
+      script:
+        - yarn lint
+        - yarn start:test
+        - yarn test
 
-env:
-  global:
-    - NODE_ENV=test
+    - stage: deploy
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
+          -in travis_rsa.enc -out travis_rsa -d
+        - chmod 600 travis_rsa
+        - mv travis_rsa ~/.ssh/id_rsa
+      after_success:
+        - bash ./scripts/deploy.sh
 
-before_install:
-  - npm i npm yarn -g
-  - mysql -e 'CREATE DATABASE database_test;'
-  - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
-      -in travis_rsa.enc -out travis_rsa -d
-  - chmod 600 travis_rsa
-  - mv travis_rsa ~/.ssh/id_rsa
-
-script:
-  - yarn lint
-  - yarn start:test
-  - yarn test
-
-after_success:
-  - bash ./scripts/deploy.sh
+stages:
+  - name: test
+    if: type = pull_request
+  - name: deploy
