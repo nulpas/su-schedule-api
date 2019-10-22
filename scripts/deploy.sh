@@ -2,7 +2,7 @@
 
 set -x
 
-ssh travis@188.166.18.204 -p 18665 'bash -s'
+ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665
 cd /var/www/vaquerosyzapatillas.com/api
 mkdir pollas
 
