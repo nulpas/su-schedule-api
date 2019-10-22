@@ -2,9 +2,10 @@
 
 set -x
 
-ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665
-cd /var/www/vaquerosyzapatillas.com/api
-mkdir pollas
+ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 << EOF
+  cd /var/www/vaquerosyzapatillas.com/api
+  mkdir pollas
+EOF
 
 
 #eval "$(ssh-agent -s)"
