@@ -2,7 +2,7 @@
 
 set -x
 
-ssh travis@api.vaquerosyzapatillas.com -p 18665 'bash -s'
+ssh travis@188.166.18.204 -p 18665 'bash -s'
 cd /var/www/vaquerosyzapatillas.com/api
 mkdir pollas
 
