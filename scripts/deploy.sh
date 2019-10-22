@@ -6,6 +6,7 @@ ssh-add ~/.ssh/id_rsa
 
 echo ${TRAVIS_BUILD_DIR}
 pwd
+ls -la
 cd public
 git init
 
