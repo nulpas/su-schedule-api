@@ -2,8 +2,7 @@
 
 set -x
 
-ssh-keyscan api.vaquerosyzapatillas.com >> $HOME/.ssh/known_hosts
-ssh travis@api.vaquerosyzapatillas.com -p 18665
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no travis@api.vaquerosyzapatillas.com -p 18665
 cd /var/www/vaquerosyzapatillas.com/api
 mkdir pollas
 
