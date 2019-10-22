@@ -10,7 +10,7 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   cd su-schedule-api
   yarn
   yarn build
-  mv dist/* ../../
+  mv dist/* ../
   cd ../
   ls -la
 EOF
