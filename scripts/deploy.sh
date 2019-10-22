@@ -4,6 +4,7 @@ set -x
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 
+echo ${TRAVIS_BUILD_DIR}
 pwd
 cd public
 git init
