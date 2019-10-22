@@ -6,7 +6,13 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   cd /var/www/vaquerosyzapatillas.com/api
   rm -rf *
   rm -rf .*
-  mkdir pollas
+  git clone https://github.com/nulpas/su-schedule-api.git
+  cd su-schedule-api
+  yarn
+  yarn build
+  mv dist/* ../../
+  cd ../../
+  ls -la
 EOF
 
 #eval "$(ssh-agent -s)"
