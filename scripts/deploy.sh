@@ -4,6 +4,7 @@ set -x
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 
+pwd
 cd public
 git init
 
