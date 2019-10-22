@@ -9,6 +9,7 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   git clone https://github.com/nulpas/su-schedule-api.git
   cd su-schedule-api
   yarn
+  export NODE_ENV="production"
   yarn build
   mv dist/* ../
   mv node_modules ../
