@@ -32,4 +32,4 @@ stages:
   - name: test
     if: (type = pull_request OR type = push) AND branch != master
   - name: deploy
-    if: type = merge AND branch = master
+    if: type = push AND branch = master
