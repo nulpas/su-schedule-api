@@ -1,24 +1,34 @@
 language: node_js
+
 node_js:
-- lts/*
-services:
-- mysql
-env:
-  global:
-  - NODE_ENV=test
-before_install:
-- npm i npm yarn -g
-- mysql -e 'CREATE DATABASE database_test;'
-script:
-- yarn lint
-- yarn start:test
-- yarn test
-before_deploy:
-  - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
-    -in travis_rsa.enc -out travis_rsa -d
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: "./scripts/deploy.sh"
-  on:
-    branch: all
+  - lts/*
+
+jobs:
+  include:
+    - stage: test
+      services:
+        - mysql
+      before_script:
+        - npm i npm yarn -g
+        - mysql -e 'CREATE DATABASE database_test;'
+      script:
+        - yarn lint
+        - yarn start:test
+        - yarn test
+
+    - stage: deploy
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
+          -in travis_rsa.enc -out travis_rsa -d
+        - ls -la ~/.ssh/
+        - chmod 600 travis_rsa
+        - mv travis_rsa ~/.ssh/id_rsa
+        - mv travis_rsa.pub ~/.ssh/id_rsa.pub
+        - ls -la ~/.ssh/
+      after_success:
+        - bash ./scripts/deploy.sh
+
+stages:
+  - name: test
+    if: type = pull_request
+  - name: deploy
