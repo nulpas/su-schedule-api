@@ -11,6 +11,7 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   yarn
   yarn build
   mv dist/* ../
+  mv src/migrations ../
   mv node_modules ../
   mv package.json ../
   cd ../
