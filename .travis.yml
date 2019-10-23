@@ -30,6 +30,6 @@ jobs:
 
 stages:
   - name: test
-    if: (type = pull_request OR type = push) AND branch != master
+    if: (type = push AND branch != master) OR (type = pull_request AND branch = master)
   - name: deploy
     if: type = push AND branch = master
