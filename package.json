@@ -10,7 +10,7 @@
     "start": "tsc && node dist/index.js",
     "start:dev": "./tools/init-mysql-db.sh && sequelize db:migrate && tsc && NODE_ENV=development node dist/index.js",
     "start:test": "sequelize db:migrate && tsc && NODE_ENV=test node dist/index.js &",
-    "start:pro": "NODE_ENV=production node dist/index.js",
+    "start:pro": "NODE_ENV=production node index.js",
     "test": "echo \"Warn: No test specified\""
   },
   "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",
