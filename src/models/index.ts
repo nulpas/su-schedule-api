@@ -7,7 +7,7 @@ import { Sequelize } from 'sequelize';
 dotEnv.config();
 const env: string = process.env.NODE_ENV || 'development';
 
-console.log('#######################', env);
+console.log('#######################', env, process.env.NODE_ENV);
 
 const config: any = configFile[env];
 const basename: string = path.basename(__filename);
