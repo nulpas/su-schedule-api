@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'vyz',
-    script: './index.js',
+    script: './vyz.js',
     env: {
       NODE_ENV: 'development'
     },
