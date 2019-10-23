@@ -10,7 +10,6 @@ jobs:
         - mysql
       before_script:
         - npm i npm yarn -g
-        - export NODE_ENV=test
         - mysql -e 'CREATE DATABASE database_test;'
       script:
         - yarn lint

@@ -8,9 +8,10 @@
     "dev": "tsc --watch",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "start": "tsc && node dist/index.js",
-    "start:dev": "./tools/init-mysql-db.sh && sequelize db:migrate && tsc && NODE_ENV=development node dist/index.js",
-    "start:test": "sequelize db:migrate && tsc && NODE_ENV=test node dist/index.js &",
-    "start:pro": "NODE_ENV=production node index.js",
+    "migrate": "sequelize db:migrate --env $NODE_ENV",
+    "start:dev": "./tools/init-mysql-db.sh && NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && tsc && node dist/index.js",
+    "start:test": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && node dist/index.js &",
+    "start:pro": "export NODE_ENV=production && yarn migrate && pm2 stop index.js && pm2 start index.js",
     "test": "echo \"Warn: No test specified\""
   },
   "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",

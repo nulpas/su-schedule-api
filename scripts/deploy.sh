@@ -15,8 +15,7 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   mv package.json ../
   cd ../
   rm -rf su-schedule-api
-  pm2 stop index.js
-  pm2 start index.js
+  yarn start:pro
   pm2 status
 EOF
 
