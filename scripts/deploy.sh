@@ -9,12 +9,14 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   git clone https://github.com/nulpas/su-schedule-api.git
   cd su-schedule-api
   yarn
-  export NODE_ENV="production"
   yarn build
   mv dist/* ../
   mv node_modules ../
+  mv package.json ../
   cd ../
-  #rm -rf su-schedule-api
+  rm -rf su-schedule-api
+  yarn start:pro
+  pm2 status
 EOF
 
 #eval "$(ssh-agent -s)"
