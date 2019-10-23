@@ -53,7 +53,7 @@ models.sequelize.sync()
       response.json('Protected Hello World');
     });
 
-    app.listen(port, () => {
+    app.listen(port, 'localhost', () => {
       console.log(`App is listening on port ${port}`);
     });
   })
