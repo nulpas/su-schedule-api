@@ -20,7 +20,7 @@ models.sequelize.sync()
     app.use(cors());
 
     app.get('/', (request: express.Request, response: express.Response) => {
-      response.json('Hello World');
+      response.json('Hello World, how are you?');
     });
 
     Object.keys(routesUnprotected).forEach((e: string) => {
