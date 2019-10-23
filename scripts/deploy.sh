@@ -14,13 +14,12 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   mv src/migrations ../
   mv node_modules ../
   mv package.json ../
+  mv ecosystem.config.js ../
   cd ../
   rm -rf su-schedule-api
-  mv index.js vyz.js
-  mv index.js.map vyz.js.map
   yarn start:pro
-  pm2 stop vyz.js -s
-  pm2 start vyz.js --env production
+  pm2 stop vyz -s
+  pm2 start vyz --env production
 EOF
 
 #eval "$(ssh-agent -s)"
