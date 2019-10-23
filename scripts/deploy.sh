@@ -21,5 +21,4 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   mv index.js vyz.js
   mv index.js.map vyz.js.map
   yarn start:pro
-  pm2 start vyz.js --env production
 EOF

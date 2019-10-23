@@ -10,7 +10,7 @@
     "start": "tsc && node dist/index.js",
     "start:dev": "./tools/init-mysql-db.sh && NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && tsc && node dist/index.js",
     "start:test": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && node dist/index.js &",
-    "start:pro": "export NODE_ENV=production && sequelize db:migrate --env $NODE_ENV",
+    "start:pro": "export NODE_ENV=production && sequelize db:migrate --env $NODE_ENV && NODE_ENV=production pm2 start vyz.js --env production",
     "test": "echo \"Warn: No test specified\""
   },
   "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",
