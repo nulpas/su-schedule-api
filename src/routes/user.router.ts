@@ -1,33 +1,36 @@
 import * as express from 'express';
 import models from '../models';
-import {validationResult} from 'express-validator';
+import { validationResult } from 'express-validator';
+import userService from '../services/user.service';
+import { Request, Response, Router } from '../types/generic.types';
 
-const userRouter: express.Router = express.Router();
+const userRouter: Router = express.Router();
 const user = models.user;
 
-userRouter.get('/users', (request: express.Request, response: express.Response) => {
+userRouter.get('/users', (request: Request, response: Response) => {
   user.findAll()
     .then((res: any) => response.json(res))
     .catch((e: any) => response.status(500).json(e));
 });
 
-userRouter.get('/user/:userId', (request: express.Request, response: express.Response) => {
-  user.findByPk(request.params.userId)
+userRouter.get('/user/:userId', (request: Request, response: Response) => {
+  user.findByPk(request.params.userId, { attributes: userService.userAttributes })
     .then((res: any) => response.json(res))
     .catch((e: any) => response.status(500).json(e));
 });
 
-userRouter.put('/user/:userId', (request: express.Request, response: express.Response) => {
+userRouter.put('/user/:userId', (request: Request, response: Response) => {
+  const _userId: number = Number(request.params.userId);
+
   console.log(validationResult(request).array());
 
-  user.findByPk(request.params.userId)
+  user.findByPk(_userId)
     .then((res: any) => {
       if (res) {
-        user.update(request.body, {where: {id: request.params.userId}}).then(() => {
-          user.findByPk(request.params.userId).then((userObject: any) => response.json(userObject));
-        });
+        return user.update(request.body, {where: {id: _userId}})
+          .then(() => userService.getUserById(_userId).then((u: any) => response.json(u)));
       } else {
-        response.status(400).json('Bad Request');
+        return response.status(400).json('Bad Request');
       }
     })
     .catch((e: any) => response.status(500).json(e));

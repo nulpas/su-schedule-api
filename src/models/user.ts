@@ -1,33 +1,16 @@
 import { Model, Sequelize } from 'sequelize';
 
-export interface UserAddModel {
-  name: string;
-  email: string;
-  password: string;
-}
-
-export interface UserModel extends Model<UserModel, UserAddModel> {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  active: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface UserViewModel {
-  id: number;
-  name: string;
-  email: string;
-  active: boolean;
-}
-
 export default (sequelize: Sequelize, dataTypes: any): Model => {
   const user: any = sequelize.define('user', {
     name: dataTypes.STRING,
-    email: dataTypes.STRING,
-    password: dataTypes.STRING,
+    email: {
+      allowNull: false,
+      type: dataTypes.STRING
+    },
+    password: {
+      allowNull: false,
+      type: dataTypes.STRING
+    },
     active: {
       allowNull: false,
       type: dataTypes.BOOLEAN,

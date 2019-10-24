@@ -1,37 +1,34 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import * as Bluebird from 'bluebird';
+import { Promise } from 'bluebird';
 import models from '../models';
-import { UserAddModel, UserViewModel } from '../models/user';
-import {RequestUserLogin} from '../types/request.types';
+import { RequestUserLogin, UserRegisterModel, ResponseUser, UserLoginModel, ResponseLogin } from '../types/user.types';
 
 const user = models.user;
 
-export class UserService {
-  public static get userAttributes() {
-    return ['id', 'name', 'email', 'active'];
+class UserService {
+  public static get instance(): UserService {
+    return this._instance || (this._instance = new this());
   }
 
-  public static get user() {
-    return UserService._user;
-  }
-  public static set user(u) {
-    UserService._user = u;
-  }
-  private static _user: any;
+  private static _instance: UserService;
+
+  public readonly userAttributes: Array<string>;
 
   private readonly _saltRounds = 12;
   private readonly _jwtSecret = '0.rfyj3n9nzh';
 
-  constructor() {}
+  constructor() {
+    this.userAttributes = ['id', 'name', 'email', 'active'];
+  }
 
-  public register({ name, email, password }: UserAddModel): Promise<UserViewModel> {
+  public register({ name, email, password }: UserRegisterModel): Promise<ResponseUser> {
     return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
       return user.create({ name, email, password: hash }).then((u: any) => this.getUserById(u.id));
     });
   }
 
-  public login({ email }: UserAddModel) {
+  public login({ email }: UserLoginModel): Promise<ResponseLogin> {
     return user.findOne({ where: { email } }).then((u: any) => {
       const _loginPayload: RequestUserLogin = {
         id: u.id,
@@ -42,19 +39,20 @@ export class UserService {
   }
 
   public verifyToken(token: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      jwt.verify(token, this._jwtSecret, (errors: any, decoded: any) => {
+    return new Promise((resolve) => {
+      jwt.verify(token, this._jwtSecret, (errors: any) => {
         resolve(!(!!errors));
-        if (!(!!errors)) {
-          UserService.user = user.findByPk(decoded.id);
-        }
       });
     });
   }
 
-  public getUserById(id: number): Bluebird<UserViewModel> {
-    return user.findByPk(id, {
-      attributes: UserService.userAttributes
-    });
+  public getUserById(id: number): Promise<ResponseUser> {
+    return user.findByPk(id, { attributes: this.userAttributes });
   }
+
+  // public updateUser(id: number, { name, email, password, active }): Promise<ResponseUser> {
+  //
+  // }
 }
+
+export default UserService.instance;
