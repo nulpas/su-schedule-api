@@ -24,7 +24,7 @@ userRouter.put('/user/:userId', (request: express.Request, response: express.Res
     .then((res: any) => {
       if (res) {
         user.update(request.body, {where: {id: request.params.userId}}).then(() => {
-          user.findByPk(request.params.userId).then((user: any) => response.json(user));
+          user.findByPk(request.params.userId).then((userObject: any) => response.json(userObject));
         });
       } else {
         response.status(400).json('Bad Request');
