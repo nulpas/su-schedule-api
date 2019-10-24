@@ -7,7 +7,7 @@ const user = models.user;
 export const userRules = {
   forRegister: [
     check('name')
-      .exists().withMessage('Name required')
+      .exists().withMessage('Name required. No parameter name in request')
       .custom((name: string) => !!name).withMessage('Name required'),
     check('email')
       .isEmail().withMessage('Invalid email format')

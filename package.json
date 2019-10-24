@@ -1,15 +1,16 @@
 {
   "name": "@nulpas/su-schedule-api",
-  "version": "0.0.0-beta.10",
+  "version": "0.0.0-beta.11",
   "description": "Su Schedule API.",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && echo 'Rebuild done!!'",
     "dev": "tsc --watch",
     "lint": "tslint --project tsconfig.json --config tslint.json",
-    "start": "tsc && node dist/index.js",
-    "start:dev": "./tools/init-mysql-db.sh && NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && tsc && node dist/index.js",
-    "start:test": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && node dist/index.js &",
+    "start": "tsc && NODE_ENV=development pm2 start dist/index.js --env $NODE_ENV --watch && npm run watch",
+    "watch": "watch 'npm run build' ./src",
+    "start:dev": "pm2 delete dist/index.js || true && ./tools/init-mysql-db.sh && export NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && npm start",
+    "start:test": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && NODE_ENV=test pm2 start dist/index.js --env $NODE_ENV",
     "start:pro": "export NODE_ENV=production && sequelize db:migrate --env $NODE_ENV && NODE_ENV=production pm2 start vyz.js --env production",
     "test": "echo \"Warn: No test specified\""
   },
@@ -28,7 +29,7 @@
     "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^1.7.0",
-    "sequelize": "^5.21.0"
+    "sequelize": "^5.21.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
@@ -43,13 +44,15 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.1",
     "@types/jsonwebtoken": "^8.3.5",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.11.6",
     "@types/sequelize": "^4.28.6",
     "dotenv": "^8.2.0",
+    "pm2": "^4.1.2",
     "portscanner": "^2.2.0",
     "sequelize-cli": "^5.5.1",
     "tslib": "^1.10.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "watch": "^1.0.2"
   }
 }
