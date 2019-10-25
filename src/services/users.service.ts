@@ -2,16 +2,17 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { Promise } from 'bluebird';
 import models from '../models';
-import { RequestUserLogin, UserRegisterModel, ResponseUser, UserLoginModel, ResponseLogin } from '../types/user.types';
+import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin } from '../types/user.types';
+import Users from '../models/users';
 
-const user = models.user;
+const users: typeof Users = models.users as typeof Users;
 
-class UserService {
-  public static get instance(): UserService {
+class UsersService {
+  public static get instance(): UsersService {
     return this._instance || (this._instance = new this());
   }
 
-  private static _instance: UserService;
+  private static _instance: UsersService;
 
   public readonly userAttributes: Array<string>;
 
@@ -22,14 +23,14 @@ class UserService {
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
 
-  public register({ name, email, password }: UserRegisterModel): Promise<ResponseUser> {
+  public register({ name, email, password }: UserRegisterModel): Promise<Users | null> {
     return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
-      return user.create({ name, email, password: hash }).then((u: any) => this.getUserById(u.id));
+      return users.create({ name, email, password: hash }).then((u: any) => this.getUserById(u.id));
     });
   }
 
   public login({ email }: UserLoginModel): Promise<ResponseLogin> {
-    return user.findOne({ where: { email } }).then((u: any) => {
+    return users.findOne({ where: { email } }).then((u: any) => {
       const _loginPayload: RequestUserLogin = {
         id: u.id,
         email: u.email
@@ -46,8 +47,8 @@ class UserService {
     });
   }
 
-  public getUserById(id: number): Promise<ResponseUser> {
-    return user.findByPk(id, { attributes: this.userAttributes });
+  public getUserById(id: number): Promise<Users | null> {
+    return users.findByPk(id, { attributes: this.userAttributes });
   }
 
   // public updateUser(id: number, { name, email, password, active }): Promise<ResponseUser> {
@@ -55,4 +56,4 @@ class UserService {
   // }
 }
 
-export default UserService.instance;
+export default UsersService.instance;

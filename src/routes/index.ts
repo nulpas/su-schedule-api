@@ -1,12 +1,12 @@
-import * as express from 'express';
-import userRouter from './user.router';
+import usersRouter from './users.router';
 import activitiesRouter from './activities.router';
+import { Router } from '../types/generic.types';
 
 export interface SuScheduleRouter {
-  [routerName: string]: express.Router;
+  [routerName: string]: Router;
 }
 
 export default {
-  userRouter,
+  usersRouter,
   activitiesRouter
 } as SuScheduleRouter;

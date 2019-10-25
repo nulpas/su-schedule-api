@@ -1,5 +1,5 @@
 import { IncomingHttpHeaders } from 'http';
-import userService from '../services/user.service';
+import usersService from '../services/users.service';
 import { NextFunction, Request, RequestHandler, Response } from '../types/generic.types';
 
 type TokenGuard = () => RequestHandler;
@@ -11,7 +11,7 @@ function getTokenFromHeaders(headers: IncomingHttpHeaders) {
 
 export const tokenGuard: (TokenGuard) = (() => (request: Request, response: Response, next: NextFunction) => {
   const token = getTokenFromHeaders(request.headers) || request.query.token || request.body.token || '';
-  userService.verifyToken(token).then((a: boolean) => {
+  usersService.verifyToken(token).then((a: boolean) => {
     if (!a) {
       return response.status(403).send({ message: 'No access' });
     }

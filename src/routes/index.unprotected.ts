@@ -1,10 +1,10 @@
-import * as express from 'express';
-import userRouterUnprotected from './user.unprotected.router';
+import usersRouterUnprotected from './users.unprotected.router';
+import { Router } from '../types/generic.types';
 
 export interface SuScheduleRouterUnprotected {
-  [routerUnprotectedName: string]: express.Router;
+  [routerUnprotectedName: string]: Router;
 }
 
 export default {
-  userRouterUnprotected
+  usersRouterUnprotected
 } as SuScheduleRouterUnprotected;
