@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { Promise } from 'bluebird';
 import models from '../models';
-import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin } from '../types/user.types';
+import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin, UserUpdateModel } from '../types/user.types';
 import Users from '../models/users';
 
 const users: typeof Users = models.users as typeof Users;
@@ -51,9 +51,17 @@ class UsersService {
     return users.findByPk(id, { attributes: this.userAttributes });
   }
 
-  // public updateUser(id: number, { name, email, password, active }): Promise<ResponseUser> {
-  //
-  // }
+  public updateUser(id: number, { name, email, password, active }: UserUpdateModel): Promise<Users | null | undefined> {
+    return users.findByPk(id, { attributes: this.userAttributes }).then((u: Users | null) => {
+      return new Promise((resolve, reject) => {
+        if (!!u) {
+          resolve(users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id)));
+        } else {
+          reject(new Error('Bad request: Given ID not found'));
+        }
+      });
+    });
+  }
 }
 
 export default UsersService.instance;

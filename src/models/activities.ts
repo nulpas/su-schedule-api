@@ -20,13 +20,3 @@ export default class Activities extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
-
-// export default (sequelize: Sequelize, dataTypes: any): Model => {
-//   const activities: any = sequelize.define('activities', {
-//     name: dataTypes.STRING
-//   }, {});
-//   activities.associate = (models: any) => {
-//     // ## Associations can be defined here
-//   };
-//   return activities;
-// };

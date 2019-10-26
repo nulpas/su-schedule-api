@@ -47,5 +47,8 @@ export const usersRules = {
             });
         });
       }).withMessage('Invalid email or password')
+  ],
+  forUserActive: [
+    check('active').exists().withMessage('Active status is required')
   ]
 };

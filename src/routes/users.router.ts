@@ -1,11 +1,14 @@
 import * as express from 'express';
 import models from '../models';
-import { validationResult } from 'express-validator';
+import { matchedData, validationResult } from 'express-validator';
 import usersService from '../services/users.service';
 import { Request, Response, Router } from '../types/generic.types';
+import Users from '../models/users';
+import { usersRules } from '../rules/users.rules';
+import { UserLoginModel } from '../types/user.types';
 
 const usersRouter: Router = express.Router();
-const users = models.users;
+const users: typeof Users = models.users as typeof Users;
 
 usersRouter.get('/users', (request: Request, response: Response) => {
   users.findAll()
@@ -22,18 +25,22 @@ usersRouter.get('/user/:userId', (request: Request, response: Response) => {
 usersRouter.put('/user/:userId', (request: Request, response: Response) => {
   const _userId: number = Number(request.params.userId);
 
-  console.log(validationResult(request).array());
+  return usersService.updateUser(_userId, request.body)
+    .then((u: Users | null | undefined) => response.json(u))
+    .catch((e: Error) => response.status(500).json(e.message));
+});
 
-  users.findByPk(_userId)
-    .then((res: any) => {
-      if (res) {
-        return users.update(request.body, {where: {id: _userId}})
-          .then(() => usersService.getUserById(_userId).then((u: any) => response.json(u)));
-      } else {
-        return response.status(400).json('Bad Request');
-      }
-    })
-    .catch((e: any) => response.status(500).json(e));
+usersRouter.put('/user/:userId/active', usersRules.forUserActive, (request: Request, response: Response) => {
+  const _userId: number = Number(request.params.userId);
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
+    return response.status(422).json(errors.array());
+  }
+  const payload: UserLoginModel = matchedData(request) as UserLoginModel;
+
+  return usersService.updateUser(_userId, payload)
+    .then((u: Users | null | undefined) => response.json(u))
+    .catch((e: Error) => response.status(500).json(e.message));
 });
 
 export default usersRouter;

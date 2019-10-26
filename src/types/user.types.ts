@@ -24,6 +24,13 @@ export interface UserLoginModel extends Model<UserModel> {
   email: string;
 }
 
+export interface UserUpdateModel extends Model<UserModel> {
+  name?: string;
+  email?: string;
+  password?: string;
+  active?: boolean;
+}
+
 /**
  * RESPONSES
  */
