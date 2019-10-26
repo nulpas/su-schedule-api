@@ -1,8 +1,9 @@
 import * as express from 'express';
+import { Request, Response, Router } from '../types/generic.types';
 
-const activitiesRouter: express.Router = express.Router();
+const activitiesRouter: Router = express.Router();
 
-activitiesRouter.get('/activities', (request: express.Request, response: express.Response) => {
+activitiesRouter.get('/activities', (request: Request, response: Response) => {
   response.json('Testing separated routes...');
 });
 

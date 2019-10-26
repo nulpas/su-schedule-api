@@ -18,8 +18,9 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es5",
-    "typeRoots": ["node_modules/@types"]
+    "target": "es6",
+    "typeRoots": ["node_modules/@types"],
+    "types": []
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

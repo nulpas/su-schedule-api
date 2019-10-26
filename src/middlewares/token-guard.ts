@@ -1,20 +1,17 @@
-import * as jwt from 'jsonwebtoken';
 import { IncomingHttpHeaders } from 'http';
-import * as express from 'express';
-import { UserService } from '../services/user.service';
+import usersService from '../services/users.service';
+import { NextFunction, Request, RequestHandler, Response } from '../types/generic.types';
 
-type TokenGuard = () => express.RequestHandler;
-
-const userService = new UserService();
+type TokenGuard = () => RequestHandler;
 
 function getTokenFromHeaders(headers: IncomingHttpHeaders) {
   const header: string = headers.authorization as string;
   return (header) ? header.split(' ')[1] : header;
 }
 
-export const tokenGuard: (TokenGuard) = (() => (request: express.Request, response: express.Response, next: express.NextFunction) => {
+export const tokenGuard: (TokenGuard) = (() => (request: Request, response: Response, next: NextFunction) => {
   const token = getTokenFromHeaders(request.headers) || request.query.token || request.body.token || '';
-  userService.verifyToken(token).then((a: boolean) => {
+  usersService.verifyToken(token).then((a: boolean) => {
     if (!a) {
       return response.status(403).send({ message: 'No access' });
     }

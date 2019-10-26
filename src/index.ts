@@ -1,25 +1,26 @@
-import express from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import { Sequelize } from 'sequelize';
 import * as dotEnv from 'dotenv';
 import * as configFile from './config/config.json';
-import models from './models';
+import { sequelize } from './models';
 import routes from './routes';
 import routesUnprotected from './routes/index.unprotected';
 import { tokenGuard } from './middlewares/token-guard';
+import { Request, Response } from './types/generic.types';
 
 dotEnv.config();
-const app = express();
-const port = 4001;
+const app: Express = express();
+const port: number = 4001;
 
-models.sequelize.sync()
+sequelize.sync()
   .then(() => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cors());
 
-    app.get('/', (request: express.Request, response: express.Response) => {
+    app.get('/', (request: Request, response: Response) => {
       response.json('Hello World, how are you?');
     });
 
@@ -27,14 +28,14 @@ models.sequelize.sync()
       app.use('/', routesUnprotected[e]);
     });
 
-    app.use('/healthcheck', (request: express.Request, response: express.Response) => {
+    app.use('/healthcheck', (request: Request, response: Response) => {
       const env: string = process.env.NODE_ENV || 'development';
       const config: any = configFile[env];
-      const sequelize: Sequelize = new Sequelize(config.database, config.username, config.password, {
+      const sequelizeTest: Sequelize = new Sequelize(config.database, config.username, config.password, {
         host: config.host,
         dialect: config.dialect
       });
-      return sequelize
+      return sequelizeTest
         .authenticate()
         .then(() => response.sendStatus(200))
         .catch((e) => response.status(500).json(e));
@@ -49,7 +50,7 @@ models.sequelize.sync()
     });
 
     // ## Protected route test
-    app.get('/protected', (request: express.Request, response: express.Response) => {
+    app.get('/protected', (request: Request, response: Response) => {
       response.json('Protected Hello World');
     });
 
