@@ -33,7 +33,6 @@ sequelize.sync()
     });
 
     if (env === 'development') {
-      // const swaggerDocument = yaml.load(path.resolve(__dirname, './swagger.yml'));
       app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(yaml.load(path.resolve(__dirname, './swagger.yml'))));
     }
 
