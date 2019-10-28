@@ -16,19 +16,19 @@ usersRouter.get('/users', (request: Request, response: Response) => {
     .catch((e: any) => response.status(500).json(e));
 });
 
-usersRouter.get('/user/:userId', (request: Request, response: Response) => {
-  users.findByPk(request.params.userId, { attributes: usersService.userAttributes })
-    .then((res: any) => response.json(res))
-    .catch((e: any) => response.status(500).json(e));
-});
+usersRouter
+  .get('/user/:userId', (request: Request, response: Response) => {
+    users.findByPk(request.params.userId, { attributes: usersService.userAttributes })
+      .then((res: any) => response.json(res))
+      .catch((e: any) => response.status(500).json(e));
+  })
+  .put('/user/:userId', (request: Request, response: Response) => {
+    const _userId: number = Number(request.params.userId);
 
-usersRouter.put('/user/:userId', (request: Request, response: Response) => {
-  const _userId: number = Number(request.params.userId);
-
-  return usersService.updateUser(_userId, request.body)
-    .then((u: Users | null | undefined) => response.json(u))
-    .catch((e: Error) => response.status(500).json(e.message));
-});
+    return usersService.updateUser(_userId, request.body)
+      .then((u: Users | null | undefined) => response.json(u))
+      .catch((e: Error) => response.status(500).json(e.message));
+  });
 
 usersRouter.put('/user/:userId/active', usersRules.forUserActive, (request: Request, response: Response) => {
   const _userId: number = Number(request.params.userId);

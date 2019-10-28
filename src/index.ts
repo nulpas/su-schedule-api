@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+import path from 'path';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import { Sequelize } from 'sequelize';
@@ -9,8 +10,11 @@ import routes from './routes';
 import routesUnprotected from './routes/index.unprotected';
 import { tokenGuard } from './middlewares/token-guard';
 import { Request, Response } from './types/generic.types';
+import swaggerUi from 'swagger-ui-express';
+import yaml from 'yamljs';
 
 dotEnv.config();
+const env: string = process.env.NODE_ENV || 'development';
 const app: Express = express();
 const port: number = 4001;
 
@@ -27,6 +31,11 @@ sequelize.sync()
     Object.keys(routesUnprotected).forEach((e: string) => {
       app.use('/', routesUnprotected[e]);
     });
+
+    if (env === 'development') {
+      // const swaggerDocument = yaml.load(path.resolve(__dirname, './swagger.yml'));
+      app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(yaml.load(path.resolve(__dirname, './swagger.yml'))));
+    }
 
     app.use('/healthcheck', (request: Request, response: Response) => {
       const env: string = process.env.NODE_ENV || 'development';

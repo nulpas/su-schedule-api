@@ -1,15 +1,16 @@
 {
   "name": "@nulpas/su-schedule-api",
-  "version": "0.0.0-beta.15",
+  "version": "0.0.0-beta.16",
   "description": "Su Schedule API.",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && echo 'Build done!!'",
+    "build": "tsc && npm run copy && echo 'Build done!!'",
     "dev": "tsc --watch",
     "lint": "tslint --project tsconfig.json --config tslint.json",
-    "start": "tsc && NODE_ENV=development pm2 start dist/index.js --env $NODE_ENV --watch --time && npm run watch",
+    "start": "tsc && npm run copy && NODE_ENV=development pm2 start dist/index.js --env $NODE_ENV --watch --time && npm run watch",
     "watch": "watch 'npm run build' ./src",
     "logs": "pm2 logs",
+    "copy": "cp ./src/swagger.yml ./dist",
     "start:dev": "pm2 delete dist/index.js || true && ./tools/init-mysql-db.sh && export NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && npm start",
     "start:test": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && NODE_ENV=test pm2 start dist/index.js --env $NODE_ENV",
     "start:pro": "export NODE_ENV=production && sequelize db:migrate --env $NODE_ENV && NODE_ENV=production pm2 start vyz.js --env production",
@@ -29,8 +30,9 @@
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mysql2": "^1.7.0",
-    "sequelize": "^5.21.1"
+    "mysql2": "^2.0.0",
+    "sequelize": "^5.21.1",
+    "swagger-ui-express": "^4.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
@@ -43,7 +45,7 @@
     "@types/body-parser": "^1.17.1",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.6",
-    "@types/dotenv": "^6.1.1",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.1",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/node": "^12.11.7",
@@ -55,6 +57,7 @@
     "tslib": "^1.10.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4",
-    "watch": "^1.0.2"
+    "watch": "^1.0.2",
+    "yamljs": "^0.3.0"
   }
 }
