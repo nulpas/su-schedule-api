@@ -38,8 +38,8 @@ sequelize.sync()
     }
 
     app.use('/healthcheck', (request: Request, response: Response) => {
-      const env: string = process.env.NODE_ENV || 'development';
-      const config: any = configFile[env];
+      const _env: string = process.env.NODE_ENV || 'development';
+      const config: any = configFile[_env];
       const sequelizeTest: Sequelize = new Sequelize(config.database, config.username, config.password, {
         host: config.host,
         dialect: config.dialect
