@@ -32,9 +32,8 @@ jobs:
         - chmod 600 travis_rsa
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
-        - export POLLO=$POLLO
       after_success:
-        - bash ./scripts/deploy.sh
+        - POLLO=$POLLO bash -c ./scripts/deploy.sh
 
 stages:
   - name: test
