@@ -4,22 +4,33 @@ import { Promise } from 'bluebird';
 import models from '../models';
 import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin, UserUpdateModel } from '../types/user.types';
 import Users from '../models/users';
+import * as dotEnv from 'dotenv';
 
+dotEnv.config();
 const users: typeof Users = models.users as typeof Users;
 
 class UsersService {
   public static get instance(): UsersService {
-    return this._instance || (this._instance = new this());
+    return this._instance || (this._instance = new this(
+      process.env.NODE_ENV as string,
+      process.env.JWT_SECRET as jwt.Secret,
+      process.env.SALT_ROUNDS as string | number
+    ));
   }
 
   private static _instance: UsersService;
 
   public readonly userAttributes: Array<string>;
 
-  private readonly _saltRounds = 12;
-  private readonly _jwtSecret = '0.rfyj3n9nzh';
+  private readonly _saltRounds: string | number = 12;
+  private readonly _jwtSecret: jwt.Secret = '0.rfyj3n9nzh';
 
-  constructor() {
+  constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRounds: string | number) {
+    console.log('############################################################');
+    console.log('############# NODE_ENV:', nodeEnv);
+    console.log('############# JWT_SECRET:', jwtSecret);
+    console.log('############# SALT_ROUNDS:', saltRounds);
+    console.log('############################################################');
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
 
