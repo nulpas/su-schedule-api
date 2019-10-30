@@ -9,14 +9,13 @@ import * as dotEnv from 'dotenv';
 dotEnv.config();
 const users: typeof Users = models.users as typeof Users;
 
-console.log('#########################################################');
-console.log('JWT_SECRET', process.env.JWT_SECRET, 'services/user.service.ts');
-console.log('NODE_ENV', process.env.NODE_EV, 'services/user.service.ts');
-console.log('#########################################################');
-
 class UsersService {
   public static get instance(): UsersService {
-    return this._instance || (this._instance = new this(process.env.NODE_ENV));
+    return this._instance || (this._instance = new this(
+      process.env.NODE_ENV as string,
+      process.env.JWT_SECRET as jwt.Secret,
+      process.env.SALT_ROUND as string | number
+    ));
   }
 
   private static _instance: UsersService;
@@ -26,8 +25,12 @@ class UsersService {
   private readonly _saltRounds: string | number = 12;
   private readonly _jwtSecret: jwt.Secret = '0.rfyj3n9nzh';
 
-  constructor(node_env) {
-    console.log('$$$$$$$$$$$$$$$$', node_env);
+  constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRound: string | number) {
+    console.log('############################################################');
+    console.log('############# NODE_ENV:', nodeEnv);
+    console.log('############# JWT_SECRET:', jwtSecret);
+    console.log('############# SALT_ROUND:', saltRound);
+    console.log('############################################################');
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
 
