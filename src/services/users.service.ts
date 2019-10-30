@@ -16,7 +16,7 @@ console.log('#########################################################');
 
 class UsersService {
   public static get instance(): UsersService {
-    return this._instance || (this._instance = new this());
+    return this._instance || (this._instance = new this(process.env.NODE_ENV));
   }
 
   private static _instance: UsersService;
@@ -26,7 +26,8 @@ class UsersService {
   private readonly _saltRounds: string | number = 12;
   private readonly _jwtSecret: jwt.Secret = '0.rfyj3n9nzh';
 
-  constructor() {
+  constructor(node_env) {
+    console.log('$$$$$$$$$$$$$$$$', node_env);
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
 
