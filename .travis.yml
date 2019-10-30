@@ -33,7 +33,7 @@ jobs:
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
       after_success:
-        - POLLO=$POLLO bash -c ./scripts/deploy.sh
+        - POLLO=$POLLO bash ./scripts/deploy.sh
 
 stages:
   - name: test
