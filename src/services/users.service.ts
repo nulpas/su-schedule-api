@@ -14,7 +14,7 @@ class UsersService {
     return this._instance || (this._instance = new this(
       process.env.NODE_ENV as string,
       process.env.JWT_SECRET as jwt.Secret,
-      process.env.SALT_ROUND as string | number
+      process.env.SALT_ROUNDS as string | number
     ));
   }
 
@@ -25,11 +25,11 @@ class UsersService {
   private readonly _saltRounds: string | number = 12;
   private readonly _jwtSecret: jwt.Secret = '0.rfyj3n9nzh';
 
-  constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRound: string | number) {
+  constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRounds: string | number) {
     console.log('############################################################');
     console.log('############# NODE_ENV:', nodeEnv);
     console.log('############# JWT_SECRET:', jwtSecret);
-    console.log('############# SALT_ROUND:', saltRound);
+    console.log('############# SALT_ROUNDS:', saltRounds);
     console.log('############################################################');
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }

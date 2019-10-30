@@ -22,7 +22,7 @@ jobs:
         - yarn lint
         - yarn start:test
         - yarn test
-        - yarn logs
+        - cat ~/.pm2/logs/index-out.log
     - stage: deploy
       before_install:
         - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
