@@ -24,12 +24,15 @@ jobs:
         - yarn test
         - cat ~/.pm2/logs/index-out.log
     - stage: deploy
+      env:
+        - POLLO=pollo_loco
       before_install:
         - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
           -in travis_rsa.enc -out travis_rsa -d
         - chmod 600 travis_rsa
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
+        - export POLLO=$POLLO_LOCO
       after_success:
         - bash ./scripts/deploy.sh
 
