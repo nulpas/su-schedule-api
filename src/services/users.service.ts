@@ -4,8 +4,15 @@ import { Promise } from 'bluebird';
 import models from '../models';
 import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin, UserUpdateModel } from '../types/user.types';
 import Users from '../models/users';
+import * as dotEnv from 'dotenv';
 
+dotEnv.config();
 const users: typeof Users = models.users as typeof Users;
+
+console.log('#########################################################');
+console.log('JWT_SECRET', process.env.JWT_SECRET, 'services/user.service.ts');
+console.log('NODE_ENV', process.env.NODE_EV, 'services/user.service.ts');
+console.log('#########################################################');
 
 class UsersService {
   public static get instance(): UsersService {
@@ -16,8 +23,8 @@ class UsersService {
 
   public readonly userAttributes: Array<string>;
 
-  private readonly _saltRounds = 12;
-  private readonly _jwtSecret = '0.rfyj3n9nzh';
+  private readonly _saltRounds: string | number = 12;
+  private readonly _jwtSecret: jwt.Secret = '0.rfyj3n9nzh';
 
   constructor() {
     this.userAttributes = ['id', 'name', 'email', 'active'];

@@ -100,6 +100,7 @@ paths:
           name: userId
           schema:
             type: integer
+            example: 2
           required: true
           description: 'Numeric ID of the user to get'
       security:

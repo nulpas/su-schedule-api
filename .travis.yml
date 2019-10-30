@@ -11,6 +11,7 @@ jobs:
       before_install:
         - npm i npm yarn -g
         - mysql -e 'CREATE DATABASE database_test;'
+        - echo secret
       script:
         - yarn lint
         - yarn start:test
@@ -31,3 +32,7 @@ stages:
     if: (type = push AND branch != master) OR (type = pull_request AND branch = master)
   - name: deploy
     if: type = push AND branch = master
+
+env:
+  global:
+    - secure: rSyiWcNIeQnSZfpTFTRQT0hlZckaTenQVmHU1idsrYroiMn4J3KJxy9/4ISA99DMjDxgXX2S52r09TMVbFYdakL99sCsG6Mpwb6OlbzG9oAbW2j0jiHqfESWCTHipXifSUEDZB8h1XiWep2b90bdA9Jh/UbvXll0ykN1I5C3bK3LQO2RUWQaBrFwhOXuUPCdpOe7MKhZeXPXbCqx3IT+L3lWHlqscR4LkwgvRJp6i2C2cAHszoOeIme4LbmKhLUZ1yA5p5GwSrH9FjbXv22/wzkhMof64uBuAmsnafIOC1keRoG0a/HQGlQT6hNd+Xn4KGfFvnqb0xAoFsSKb3+CEdHcWmA+Q/s9DrCgH43i8J5Ts63JFPPS0wtqy0luigI50tIQOMTP3itanfju3DiMj/SF2lZnp5NyKjHo7VjO9/GkhJ/swi1qec56lT2o8DBvQaZoNoSxaTbhjdjt5ya7DlXE4Q3YWMJ/BthEmIHN8rrsFC5vQINi85DoOuaAzA0QwtYZWb6Xna1RkXZ2u33R6LUStaU0mS3zme16qaCrmEKIvTdBoahbZfDDdyrGboGZiN0GuXO/LQWoWNYEW6pypHAVfe2BngvNJECFIEkfTY2A76CcMoa/mObIEUAeRHVmAZTYfUO5AKk/OU24RZ5w5fBrHV7EQ8hGHUKOVrY4teA=
