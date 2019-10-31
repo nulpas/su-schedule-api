@@ -22,7 +22,7 @@ class UsersService {
 
   public readonly userAttributes: Array<string>;
 
-  private readonly _saltRounds: string | number = 12;
+  private readonly _saltRounds: string | number = 4;
   private readonly _jwtSecret: jwt.Secret = 'easyString';
 
   constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRounds: string | number) {
