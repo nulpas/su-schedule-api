@@ -22,7 +22,6 @@ jobs:
         - yarn lint
         - yarn start:test
         - yarn test
-        - cat ~/.pm2/logs/index-out.log
     - stage: deploy
       env:
         - NODE_ENV=production

@@ -30,11 +30,6 @@ class UsersService {
       this._jwtSecret = jwtSecret;
       this._saltRounds = Number(saltRounds);
     }
-    console.log('############################################################');
-    console.log('############# NODE_ENV:', nodeEnv);
-    console.log('############# JWT_SECRET:', jwtSecret, this._jwtSecret);
-    console.log('############# SALT_ROUNDS:', saltRounds, this._saltRounds);
-    console.log('############################################################');
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
 
