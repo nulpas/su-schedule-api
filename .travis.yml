@@ -33,7 +33,7 @@ jobs:
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
       after_success:
-        - POLLO=$POLLO bash ./scripts/deploy.sh
+        - JWT_SECRET=$JWT_SECRET POLLO=$POLLO bash ./scripts/deploy.sh
 
 stages:
   - name: test
