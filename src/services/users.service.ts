@@ -28,7 +28,7 @@ class UsersService {
   constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRounds: string | number) {
     if (nodeEnv !== 'development') {
       this._jwtSecret = jwtSecret;
-      this._saltRounds = saltRounds;
+      this._saltRounds = Number(saltRounds);
     }
     console.log('############################################################');
     console.log('############# NODE_ENV:', nodeEnv);
