@@ -20,6 +20,7 @@ ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EO
   rm -rf su-schedule-api
   mv index.js vyz.js
   mv index.js.map vyz.js.map
-  echo ${POLLO}
+  export JWT_SECRET=${JWT_SECRET}
+  export POLLO=${POLLO}
   yarn start:pro
 EOF
