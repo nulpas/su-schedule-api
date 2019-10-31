@@ -2,7 +2,6 @@
 
 set -x
 
-echo ${POLLO}
 ssh -o "StrictHostKeyChecking no" travis@188.166.18.204 -p 18665 /bin/bash << EOF
   cd /var/www/vaquerosyzapatillas.com/api
   pm2 delete vyz.js -s
