@@ -23,13 +23,17 @@ class UsersService {
   public readonly userAttributes: Array<string>;
 
   private readonly _saltRounds: string | number = 12;
-  private readonly _jwtSecret: jwt.Secret = '0.rfyj3n9nzh';
+  private readonly _jwtSecret: jwt.Secret = 'easyString';
 
   constructor(nodeEnv: string, jwtSecret: jwt.Secret, saltRounds: string | number) {
+    if (nodeEnv !== 'development') {
+      this._jwtSecret = jwtSecret;
+      this._saltRounds = saltRounds;
+    }
     console.log('############################################################');
     console.log('############# NODE_ENV:', nodeEnv);
-    console.log('############# JWT_SECRET:', jwtSecret);
-    console.log('############# SALT_ROUNDS:', saltRounds);
+    console.log('############# JWT_SECRET:', jwtSecret, this._jwtSecret);
+    console.log('############# SALT_ROUNDS:', saltRounds, this._saltRounds);
     console.log('############################################################');
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
