@@ -9,8 +9,6 @@ dotEnv.config();
 const env: string = process.env.NODE_ENV || 'development';
 
 console.log('####################### NODE_ENV: ', process.env.NODE_ENV, 'models/index.ts');
-console.log('####################### JWT_SECRET: ', process.env.JWT_SECRET, 'models/index.ts');
-console.log('####################### SALT_ROUNDS: ', process.env.POLLO, 'models/index.ts');
 
 const config: any = configFile[env];
 const models: AppModelsHash = {};

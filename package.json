@@ -13,7 +13,7 @@
     "copy": "cp ./src/swagger.yml ./dist",
     "start:dev": "pm2 delete dist/index.js || true && ./tools/init-mysql-db.sh && export NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && npm start",
     "start:test": "sequelize db:migrate --env $NODE_ENV && tsc && pm2 start dist/index.js",
-    "start:pro": "export NODE_ENV=production && sequelize db:migrate --env $NODE_ENV && NODE_ENV=production pm2 start vyz.js --env production",
+    "start:pro": "sequelize db:migrate --env $NODE_ENV && pm2 start vyz.js",
     "test": "echo \"Warn: No test specified\"",
     "start:test:backup": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && NODE_ENV=test pm2 start dist/index.js --env $NODE_ENV"
   },
