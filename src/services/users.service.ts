@@ -5,6 +5,7 @@ import models from '../models';
 import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin, UserUpdateModel } from '../types/user.types';
 import Users from '../models/users';
 import * as dotEnv from 'dotenv';
+import CustomError from '../custom.error';
 
 dotEnv.config();
 const users: typeof Users = models.users as typeof Users;
@@ -67,7 +68,7 @@ class UsersService {
         if (!!u) {
           resolve(users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id)));
         } else {
-          reject(new Error('Bad request: Given ID not found'));
+          reject(new CustomError('Bad request: Given ID not found', 'userId', id, 'path'));
         }
       });
     });

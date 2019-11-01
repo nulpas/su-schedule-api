@@ -24,3 +24,14 @@ export interface AppModelDescriptor {
   model: AppModels;
   tableName: string;
 }
+
+/**
+ * ERROR TYPES
+ */
+
+export interface ApiError {
+  location: string;
+  msg: string;
+  param: string;
+  value: string | number | boolean;
+}

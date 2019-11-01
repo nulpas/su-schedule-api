@@ -2,10 +2,11 @@ import * as express from 'express';
 import models from '../models';
 import { matchedData, validationResult } from 'express-validator';
 import usersService from '../services/users.service';
-import { Request, Response, Router } from '../types/generic.types';
+import { Request, Response, Router, ApiError } from '../types/generic.types';
 import Users from '../models/users';
 import { usersRules } from '../rules/users.rules';
 import { UserLoginModel } from '../types/user.types';
+import commonService from '../services/common.service';
 
 const usersRouter: Router = express.Router();
 const users: typeof Users = models.users as typeof Users;
@@ -34,13 +35,13 @@ usersRouter.put('/user/:userId/active', usersRules.forUserActive, (request: Requ
   const _userId: number = Number(request.params.userId);
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
-    return response.status(422).json(errors.array());
+    return response.status(422).json(commonService.formatError(errors.array() as Array<ApiError>));
   }
   const payload: UserLoginModel = matchedData(request) as UserLoginModel;
 
   return usersService.updateUser(_userId, payload)
     .then((u: Users | null | undefined) => response.json(u))
-    .catch((e: Error) => response.status(500).json(e.message));
+    .catch((e: Error) => response.status(400).json(commonService.formatError(e)));
 });
 
 export default usersRouter;
