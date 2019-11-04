@@ -63,12 +63,12 @@ class UsersService {
   }
 
   public updateUser(id: number, { name, email, password, active }: UserUpdateModel): Promise<Users | null | undefined> {
-    return users.findByPk(id, { attributes: this.userAttributes }).then((u: Users | null) => {
+    return this.getUserById(id).then((u: Users | null) => {
       return new Promise((resolve, reject) => {
         if (!!u) {
           resolve(users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id)));
         } else {
-          reject(new CustomError('Bad request: Given ID not found', 'userId', id, 'path'));
+          reject(new CustomError('Given ID not found', 404, 'userId', id, 'path'));
         }
       });
     });

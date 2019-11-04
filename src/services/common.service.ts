@@ -1,5 +1,6 @@
-import { ApiError } from '../types/generic.types';
+import { ApiError, Payload, Request } from '../types/generic.types';
 import CustomError from '../custom.error';
+import { matchedData, validationResult } from 'express-validator';
 
 class CommonService {
   public static get instance(): CommonService {
@@ -10,11 +11,25 @@ class CommonService {
 
   constructor() {}
 
+  public getPayload(request: Request): Payload {
+    const _output: Payload = {
+      payload: null,
+      errors: null
+    };
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      _output.errors = this.formatError(errors.array() as Array<ApiError>) as Array<ApiError>;
+    }
+    _output.payload = matchedData(request);
+    return _output;
+  }
+
   public formatError(error: Array<ApiError> | CustomError | Error): ApiError | Array<ApiError> {
     if (Array.isArray(error)) {
-      return error;
+      return error.map((e: ApiError) => ({ ...e, code: 422 }));
     }
     return {
+      code: (error as CustomError).code ? (error as CustomError).code : 0,
       location: (error as CustomError).location ? (error as CustomError).location : '',
       msg:  error.message,
       param: (error as CustomError).param ? (error as CustomError).param : '',

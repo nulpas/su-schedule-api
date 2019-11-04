@@ -30,8 +30,18 @@ export interface AppModelDescriptor {
  */
 
 export interface ApiError {
+  code: number;
   location: string;
   msg: string;
   param: string;
   value: string | number | boolean;
+}
+
+/**
+ * API TYPES
+ */
+
+export interface Payload {
+  payload: any;
+  errors: Array<ApiError> | null;
 }
