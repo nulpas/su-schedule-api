@@ -13,15 +13,15 @@ const users: typeof Users = models.users as typeof Users;
 
 usersRouter.get('/users', (request: Request, response: Response) => {
   users.findAll()
-    .then((res: any) => response.json(res))
-    .catch((e: any) => response.status(500).json(e));
+    .then((u: Array<Users>) => response.json(u))
+    .catch((e: Error) => response.status(500).json(commonService.formatError(e)));
 });
 
 usersRouter
   .get('/user/:userId', (request: Request, response: Response) => {
-    users.findByPk(request.params.userId, { attributes: usersService.userAttributes })
-      .then((res: any) => response.json(res))
-      .catch((e: any) => response.status(500).json(e));
+    usersService.getUserById(Number(request.params.userId))
+      .then((user: Users | null) => response.json(user))
+      .catch((e: CustomError) => response.status(e.code).json(commonService.formatError(e)));
   })
   .put('/user/:userId', (request: Request, response: Response) => {
     const _userId: number = Number(request.params.userId);

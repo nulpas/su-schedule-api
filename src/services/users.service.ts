@@ -36,15 +36,15 @@ class UsersService {
 
   public register({ name, email, password }: UserRegisterModel): Promise<Users | null> {
     return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
-      return users.create({ name, email, password: hash }).then((u: any) => this.getUserById(u.id));
+      return users.create({ name, email, password: hash }).then((u: Users) => this.getUserById(u.id));
     });
   }
 
   public login({ email }: UserLoginModel): Promise<ResponseLogin> {
-    return users.findOne({ where: { email } }).then((u: any) => {
+    return users.findOne({ where: { email } }).then((u: Users | null) => {
       const _loginPayload: RequestUserLogin = {
-        id: u.id,
-        email: u.email
+        id: (u as Users).id,
+        email: (u as Users).email
       };
       return { token: jwt.sign(_loginPayload, this._jwtSecret, { expiresIn: 600 }) };
     });
@@ -59,18 +59,20 @@ class UsersService {
   }
 
   public getUserById(id: number): Promise<Users | null> {
-    return users.findByPk(id, { attributes: this.userAttributes });
-  }
-
-  public updateUser(id: number, { name, email, password, active }: UserUpdateModel): Promise<Users | null | undefined> {
-    return this.getUserById(id).then((u: Users | null) => {
+    return users.findByPk(id, { attributes: this.userAttributes }).then((u: Users | null) => {
       return new Promise((resolve, reject) => {
         if (!!u) {
-          resolve(users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id)));
+          resolve(u);
         } else {
           reject(new CustomError('Given ID not found', 404, 'userId', id, 'path'));
         }
       });
+    });
+  }
+
+  public updateUser(id: number, { name, email, password, active }: UserUpdateModel): Promise<Users | null | undefined> {
+    return this.getUserById(id).then(() => {
+      return users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id));
     });
   }
 }
