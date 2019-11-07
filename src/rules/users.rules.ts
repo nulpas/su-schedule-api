@@ -15,7 +15,7 @@ export const usersRules = {
       .isEmail().withMessage('Invalid email format')
       .custom((email: string) => users.findAndCountAll({ where: { email } }).then((r: any) => {
         if (r.count) {
-          return Promise.reject('');
+          return Promise.reject(new Error(''));
         }
       })).withMessage('Email exists'),
     check('password')
@@ -31,7 +31,7 @@ export const usersRules = {
       .custom((email) => {
         return users.findOne({ where: { email } }).then((u: any) => {
           if (!!u && !u.active) {
-            return Promise.reject('');
+            return Promise.reject(new Error(''));
           }
         });
       }).withMessage('Your user needs to be activated'),
@@ -39,10 +39,10 @@ export const usersRules = {
       .custom((password, { req }) => {
         return users.findOne({ where: { email: req.body.email } }).then((u: any) => {
           return (!u) ?
-            Promise.reject('') :
+            Promise.reject(new Error('')) :
             bcrypt.compare(password, u.password).then((r: boolean) => {
               if (!r) {
-                return Promise.reject('');
+                return Promise.reject(new Error(''));
               }
             });
         });

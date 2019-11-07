@@ -5,6 +5,7 @@ import models from '../models';
 import { RequestUserLogin, UserRegisterModel, UserLoginModel, ResponseLogin, UserUpdateModel } from '../types/user.types';
 import Users from '../models/users';
 import * as dotEnv from 'dotenv';
+import CustomError from '../custom.error';
 
 dotEnv.config();
 const users: typeof Users = models.users as typeof Users;
@@ -30,25 +31,20 @@ class UsersService {
       this._jwtSecret = jwtSecret;
       this._saltRounds = Number(saltRounds);
     }
-    console.log('############################################################');
-    console.log('############# NODE_ENV:', nodeEnv);
-    console.log('############# JWT_SECRET:', jwtSecret, this._jwtSecret);
-    console.log('############# SALT_ROUNDS:', saltRounds, this._saltRounds);
-    console.log('############################################################');
     this.userAttributes = ['id', 'name', 'email', 'active'];
   }
 
   public register({ name, email, password }: UserRegisterModel): Promise<Users | null> {
     return bcrypt.hash(password, this._saltRounds).then((hash: string) => {
-      return users.create({ name, email, password: hash }).then((u: any) => this.getUserById(u.id));
+      return users.create({ name, email, password: hash }).then((u: Users) => this.getUserById(u.id));
     });
   }
 
   public login({ email }: UserLoginModel): Promise<ResponseLogin> {
-    return users.findOne({ where: { email } }).then((u: any) => {
+    return users.findOne({ where: { email } }).then((u: Users | null) => {
       const _loginPayload: RequestUserLogin = {
-        id: u.id,
-        email: u.email
+        id: (u as Users).id,
+        email: (u as Users).email
       };
       return { token: jwt.sign(_loginPayload, this._jwtSecret, { expiresIn: 600 }) };
     });
@@ -63,18 +59,20 @@ class UsersService {
   }
 
   public getUserById(id: number): Promise<Users | null> {
-    return users.findByPk(id, { attributes: this.userAttributes });
-  }
-
-  public updateUser(id: number, { name, email, password, active }: UserUpdateModel): Promise<Users | null | undefined> {
     return users.findByPk(id, { attributes: this.userAttributes }).then((u: Users | null) => {
       return new Promise((resolve, reject) => {
         if (!!u) {
-          resolve(users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id)));
+          resolve(u);
         } else {
-          reject(new Error('Bad request: Given ID not found'));
+          reject(new CustomError('Given ID not found', 404, 'userId', id, 'path'));
         }
       });
+    });
+  }
+
+  public updateUser(id: number, { name, email, password, active }: UserUpdateModel): Promise<Users | null | undefined> {
+    return this.getUserById(id).then(() => {
+      return users.update({ name, email, password, active }, { where: { id } }).then(() => this.getUserById(id));
     });
   }
 }
