@@ -1,6 +1,6 @@
 {
   "name": "@nulpas/su-schedule-api",
-  "version": "0.0.0-beta.19",
+  "version": "0.0.0-beta.20",
   "description": "Su Schedule API.",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,7 @@
     "start:dev": "pm2 delete dist/index.js || true && ./tools/init-mysql-db.sh && export NODE_ENV=development && sequelize db:migrate --env $NODE_ENV && npm start",
     "start:test": "sequelize db:migrate --env $NODE_ENV && tsc && pm2 start dist/index.js",
     "start:pro": "sequelize db:migrate --env $NODE_ENV && pm2 start vyz.js",
-    "test": "echo \"Warn: No test specified\"",
-    "start:test:backup": "export NODE_ENV=test && sequelize db:migrate --env $NODE_ENV && tsc && NODE_ENV=test pm2 start dist/index.js --env $NODE_ENV"
+    "test": "echo \"Warn: No test specified\""
   },
   "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",
   "license": "MIT",

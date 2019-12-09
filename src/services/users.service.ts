@@ -46,12 +46,19 @@ class UsersService {
         id: (u as Users).id,
         email: (u as Users).email
       };
-      return { token: jwt.sign(_loginPayload, this._jwtSecret, { expiresIn: 600 }) };
+      return { token: jwt.sign(_loginPayload, this._jwtSecret, { expiresIn: 60 }) };
     });
   }
 
   public verifyToken(token: string): Promise<boolean> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      if (!token) {
+        const _arguments: Array<string> = [
+          'Authorization in header or token in query or body',
+          'header, query or body'
+        ];
+        reject(new CustomError('No token given in header, query or body', 400, _arguments[0], token, _arguments[1]));
+      }
       jwt.verify(token, this._jwtSecret, (errors: any) => {
         resolve(!(!!errors));
       });
