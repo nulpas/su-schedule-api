@@ -1,6 +1,7 @@
 import { ApiError, Payload, Request } from '../types/generic.types';
 import CustomError from '../custom.error';
 import { matchedData, validationResult } from 'express-validator';
+import { IncomingHttpHeaders } from 'http';
 
 class CommonService {
   public static get instance(): CommonService {
@@ -10,6 +11,11 @@ class CommonService {
   private static _instance: CommonService;
 
   constructor() {}
+
+  public getTokenFromHeaders(headers: IncomingHttpHeaders): string {
+    const header: string = headers.authorization as string;
+    return (header) ? header.split(' ')[1] : header;
+  }
 
   public getPayload(request: Request): Payload {
     const _output: Payload = {
