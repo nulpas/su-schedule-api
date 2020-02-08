@@ -17,7 +17,6 @@ jobs:
         - NODE_ENV=test
       before_install:
         - npm i npm yarn -g
-        - npm i typescript -g
         - mysql -e 'CREATE DATABASE database_test;'
       script:
         - yarn lint
@@ -32,6 +31,7 @@ jobs:
         - chmod 600 travis_rsa
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
+        - npm i typescript -g
       script:
         - yarn build
         - mkdir build
