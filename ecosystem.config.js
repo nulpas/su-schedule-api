@@ -3,13 +3,9 @@ module.exports = {
     name: 'vyz',
     script: './vyz.js',
     env: {
-      NODE_ENV: 'development'
-    },
-    env_test: {
-      NODE_ENV: 'test'
-    },
-    env_production: {
-      NODE_ENV: 'production'
+      NODE_ENV: 'development',
+      JWT_SECRET: 4,
+      SALT_ROUNDS: 'easyString'
     }
   }]
 };
