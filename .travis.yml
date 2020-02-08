@@ -17,6 +17,7 @@ jobs:
         - NODE_ENV=test
       before_install:
         - npm i npm yarn -g
+        - npm i typescript -g
         - mysql -e 'CREATE DATABASE database_test;'
       script:
         - yarn lint
