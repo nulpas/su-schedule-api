@@ -31,8 +31,16 @@ jobs:
         - chmod 600 travis_rsa
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
-      after_success:
-        - JWT_SECRET=$JWT_SECRET SALT_ROUNDS=$SALT_ROUNDS NODE_ENV=$NODE_ENV bash ./scripts/deploy.sh
+        - mkdir build
+        - yarn build
+        - mv dist/* build
+        - mv src/migrations build
+        - mv node_modules build
+        - mv package.json build
+        - mv ecosystem.config.js build
+        - ls -la build
+#      after_success:
+#        - JWT_SECRET=$JWT_SECRET SALT_ROUNDS=$SALT_ROUNDS NODE_ENV=$NODE_ENV bash ./scripts/deploy.sh
 
 stages:
   - name: test
