@@ -41,6 +41,7 @@ jobs:
         - mv node_modules build
         - mv package.json build
         - mv ecosystem.config.js build
+        - cd build
         - mv index.js vyz.js
         - mv index.js.map vyz.js.map
         - ls -la build
