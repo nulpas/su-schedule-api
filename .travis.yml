@@ -31,8 +31,9 @@ jobs:
         - chmod 600 travis_rsa
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
-        - mkdir build
+      script:
         - yarn build
+        - mkdir build
         - mv dist/* build
         - mv src/migrations build
         - mv node_modules build
