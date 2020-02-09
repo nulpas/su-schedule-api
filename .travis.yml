@@ -33,6 +33,7 @@ jobs:
         - mv travis_rsa ~/.ssh/id_rsa
         - mv travis_rsa.pub ~/.ssh/id_rsa.pub
       script:
+        - echo $TREESCALE_PS
         - rm -rf node_modules yarn.lock
         - yarn install --production=false
         - yarn build:pro
