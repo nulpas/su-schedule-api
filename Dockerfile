@@ -11,7 +11,6 @@ WORKDIR /usr/src/app
 
 COPY dist/. ./
 COPY index-test.js ./
-RUN ls -la config
 
 RUN yarn install --production=false
 
