@@ -62,7 +62,7 @@ sequelize.sync()
       response.json('Protected Hello World');
     });
 
-    app.listen(port,() => {
+    app.listen(port, () => {
       console.log(`App is listening on port ${port}`);
     });
   })
