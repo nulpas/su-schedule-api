@@ -25,7 +25,7 @@ jobs:
     - stage: deploy
       env:
         - NODE_ENV=production
-        - secure: QgkdJEdWdswoxMZOI44167kcNuoXDtm7HWH3P8R8LCf/jPUgubXDzG33MZhMhcv5AlteH7O+b+vEdN9IQ9yRV58/asmgpmR++WAOAlQfguFN8cvZ/vPQSgeX/sRCjMT7d7kw+dIrZD+g+MYO0Z3YCHeJWl4ZQg/D3NPprgdym+gv8kDcuSKC90G9ndeBNJgV4Bf8JtpVFZH0emEW0tsQUNP7SPY61zkzhK2pYZNIdsIDtC6KWg1d0z926G2gV5J0ya9KMtsMg294gKK7XnQP6f0A4Qputq0XQ3jz0RUnueICkIP8j5wdY9hvUXNOpj67XToPObyOgLwiIxuf3xUUHxQoRFC8gaf4tcprHqhZy1j4KU73EKf7+mdVlPPZfIIzyvQWhj1Cj8jECMUvRENgbPz7H4tldR9LdS8Zw0TNgwWS5Jin1zQRc3kH5FjiDwLgGR5Jf3Bih4OL5UhYt1fUWyJ4ghqsFUuALSvnTyGvz/aA/fl9OKJK/W8g1U+XGhJNV5HP2xJDsfeTJijTorXsc3ATesxQemZ8N36VTh9rkmSh7ppbkeZ4dmvuu5aWriHPj0qMtgA256seSoWwPGMWFhP1d65LIgzHjyu224UEWJ59NvqVC/4bCh3U6cRJUhQSRlCHHMHDwYwWnve+JFq3wqvMibsCoWVgeTo8JSFJVmA=
+        - secure: JGp/HQJ2cl3U3dit5NxGFbuHwAyKBQjh4i9pcVGAqe8D2XbNrZfP+iseHVwfxmHYwXKRd2Rrv7GLGuoht9Ku/Wa4fFTXUTT8SB+BOnZ5ZhGP0xY1lqy8kgf1STr8+spXB7e9w2NnDN/GmC3fV/TJyI8xeLLOYUeH+sAbJ7hjSNU+atEdkj21RGFMw/Z2Gqb5Vy5vGdxedFndxreiZZww2Rc/+1n3B6NdhZDcZj0VmiqZO329LUg2hKDrJ2WROBWboxhw5Gt+pgy2/ALL4TFHwRunes4rJkKBZOLvEdX8xwEbJtqjawJqEs9ZiSf8aWcxmFdmmZf01gCfxHS2botw9L0bQt3UM9sGPeVujWpgKxkAbk40w9Ytg010ZxS92iGv4FS2GOSucDI8cOZOicGYg64Q4Tc/dIFwnErytQeXJli/RJZF3t+8lPrtBwOcXejBK77gMBGkjwQMRFmuMlW/fX4WlWyLYGCgyfxkikaaQbhUQSXl1mshPUeTvS2A2MLu7HhhvR/PYMQxvQcLa7pDnYWKz348Hvjx6VtcXnLYpIzZvTqMk2zkDLJ5T1T80KDNIdN90OGSmGfOv0ygd715HbTzTq7YMffKItMKWjJI3JNpY000sZspjvDu/gi9p8ZAHri4GyB+GGmuEPPuNepfno7CpuFF73JcpDWOylRmYOg=
       before_install:
         - openssl aes-256-cbc -K $encrypted_d80369b7a19f_key -iv $encrypted_d80369b7a19f_iv
           -in travis_rsa.enc -out travis_rsa -d
